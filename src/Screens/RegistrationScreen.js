@@ -23,8 +23,8 @@ export default function RegistrationScreen() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [fontsLoaded] = useFonts({
-    'Robotomedium': require('/GOIT/awesome-project-react-native/assets/fonts/robotomedium.ttf'),
-    'Robotoregular': require('/GOIT/awesome-project-react-native/assets/fonts/robotoregular.ttf')
+    'Robotomedium': require("../../assets/fonts/robotomedium.ttf"),
+    'Robotoregular': require("../../assets/fonts/robotoregular.ttf")
   });
   if (!fontsLoaded) {
     return null;
