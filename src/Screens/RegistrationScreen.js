@@ -23,8 +23,8 @@ export default function RegistrationScreen() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [fontsLoaded] = useFonts({
-    'Robotomedium': require("../../assets/fonts/robotomedium.ttf"),
-    'Robotoregular': require("../../assets/fonts/robotoregular.ttf")
+    'RobotoMedium': require("../../assets/fonts/RobotoMedium.ttf"),
+    'RobotoRegular': require("../../assets/fonts/RobotoRegular.ttf")
   });
   if (!fontsLoaded) {
     return null;
