@@ -12,6 +12,7 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
+import { useFonts } from "expo-font";
 
 const image = require("../../assets/images/bg-photo.jpg");
 const addPhotoIcon = require("../../assets/images/add_photo.png");
@@ -21,6 +22,13 @@ export default function RegistrationScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [fontsLoaded] = useFonts({
+    'Robotomedium': require('/GOIT/awesome-project-react-native/assets/fonts/robotomedium.ttf'),
+    'Robotoregular': require('/GOIT/awesome-project-react-native/assets/fonts/robotoregular.ttf')
+  });
+  if (!fontsLoaded) {
+    return null;
+  }
 
   const handleRegistration = () => {
     // Perform registration logic
@@ -41,10 +49,10 @@ export default function RegistrationScreen() {
           <ImageBackground source={image} style={styles.backgroundImage}>
             <View style={styles.content}>
               <View style={styles.registrationFormBox}>
-                <Text style={styles.title}>Реєстрація</Text>
+                <Text style={styles.registerTitle}>Реєстрація</Text>
 
-                <View style={styles.addPhoto}>
-                  <Image source={addPhotoIcon} style={styles.addPhotoIcon} />
+                <View style={styles.photoBox}>
+                  <Image source={addPhotoIcon} style={styles.addPhotoImg} />
                 </View>
 
                 <TextInput
@@ -74,23 +82,23 @@ export default function RegistrationScreen() {
                 </View>
 
                 <TouchableOpacity
-                  style={styles.showPasswordButton}
+                  style={styles.showPasswordContainer}
                   onPress={() => setShowPassword(!showPassword)}
                 >
-                  <Text style={styles.showPasswordButtonText}>
+                  <Text style={styles.showPasswordText}>
                     {showPassword ? "Приховати" : "Показати"}
                   </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  style={styles.registerButton}
+                  style={styles.registrBtn}
                   onPress={handleRegistration}
                 >
-                  <Text style={styles.registerButtonText}>Зареєструватися</Text>
+                  <Text style={styles.btnLabel}>Зареєструватися</Text>
                 </TouchableOpacity>
 
-                <Text style={styles.loginText}>
-                  Вже є акаунт?{" "}
+                <Text style={styles.textLogIn}>
+                  Вже є акаунт?
                   <Text style={styles.loginLink}>Увійти</Text>
                 </Text>
               </View>
@@ -105,77 +113,118 @@ export default function RegistrationScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-  },
-  safeAreaContainer: {
-    flex: 1,
-  },
-  scrollViewContainer: {
-    flexGrow: 1,
-  },
-  backgroundImage: {
-    flex: 1,
-    resizeMode: "cover",
+    position: "relative",
     justifyContent: "center",
-  },
-  content: {
-    flex: 1,
     alignItems: "center",
-    justifyContent: "flex-end",
-    paddingHorizontal: 20,
-    paddingBottom: 50,
-    paddingTop: 150,
   },
-  registrationFormBox: {
-    width: 375,
-    height: 549,
-    backgroundColor: "#FFFFFF",
-    borderRadius: 25,
-    paddingHorizontal: 16,
-    paddingBottom: 78,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-    color: "#000",
-    alignSelf: "center",
-  },
-  addPhoto: {
+  image: {
     position: "absolute",
-    top: -40,
-    left: "50%",
-    transform: [{ translateX: -60 }],
+    top: 0,
+    left: 0,
+    transform: [{ translateX: -216 }],
+    flex: 1,
+    justifyContent: "center",
+    width: 432,
+    height: 932,
+    resizeMode: "cover",
+  },
+  photoBox: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    transform: [{ translateX: 152 }, { translateY: -60 }],
     width: 120,
     height: 120,
     backgroundColor: "#F6F6F6",
-    borderRadius: 60,
-    justifyContent: "center",
-    alignItems: "center",
+    borderRadius: 16,
   },
-  addPhotoIcon: {
-    width: 25,
-    height: 25,
+  registrationFormBox: {
+    flex: 1,
+    position: "absolute",
+    transform: [{ translateX: -216 }, { translateY: -60 }],
+    width: 432,
+    height: 548,
+    borderRadius: 25,
+    backgroundColor: "#FFFFFF",
+    paddingTop: 92,
+    paddingRight: 16,
+    paddingBottom: 78,
+    paddingLeft: 16,
+  },
+  containerForm: {
+    position: "relative",
+  },
+  registerTitle: {
+    fontFamily: "RobotoMedium",
+    fontWeight: "500",
+    fontSize: 30,
+    lineHeight: 35,
+    letterSpacing: 0.3,
+    textAlign: "center",
+    marginBottom: 32,
   },
   input: {
     width: 343,
     height: 50,
-    marginBottom: 16,
-    paddingHorizontal: 16,
+    color: "#212121",
     backgroundColor: "#F6F6F6",
+    alignSelf: "center",
+    marginBottom: 16,
+    paddingLeft: 12,
+    borderRadius: 8,
+    fontFamily: "RobotoRegular",
+    fontWeight: "400",
+    fontSize: 16,
+    lineHeight: 19,
+  },
+  inputLast: {
+    width: 344,
+    height: 50,
+    color: "#212121",
+    backgroundColor: "#F6F6F6",
+    alignSelf: "center",
+    marginBottom: 0,
+    paddingLeft: 12,
+    borderRadius: 8,
+    fontFamily: "RobotoRegular",
+    fontWeight: "400",
+    fontSize: 16,
+    lineHeight: 19,
+  },
+  inputsContainer: {
+    marginBottom: 44,
+  },
+  btnLabel: {
+    alignSelf: "center",
+    color: "#FFFFFF",
+    fontFamily: "RobotoRegular",
+    fontWeight: "400",
+    fontSize: 16,
+    lineHeight: 19,
+  },
+  addPhotoImg: {
+    position: "absolute",
+    bottom: 15,
+    right: -12,
+    width: 25,
+    height: 25,
   },
   passwordContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 16,
+    position: "relative",
   },
-  showPasswordButton: {
-    marginLeft: 10,
+  showPasswordContainer: {
+    position: "absolute",
+    top: 16,
+    right: 40,
   },
-  showPasswordButtonText: {
-    color: "white",
+  showPasswordText: {
+    fontFamily: "RobotoRegular",
+    fontWeight: "400",
+    fontSize: 16,
+    lineHeight: 19,
+    color: "#1B4371",
   },
-  registerButton: {
+  registrBtn: {
     alignSelf: "center",
     backgroundColor: "#FF6C00",
     width: 344,
@@ -184,22 +233,13 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 16,
   },
-  registerButtonText: {
-    color: "#FFFFFF",
+  textLogIn: {
+    textAlign: "center",
     fontFamily: "RobotoRegular",
     fontWeight: "400",
     fontSize: 16,
     lineHeight: 19,
-    textAlign: "center",
-  },
-  loginText: {
-    alignSelf: "center",
-    marginTop: 20,
-    color: "black",
-  },
-  loginLink: {
-    fontWeight: "bold",
-    textDecorationLine: "underline",
+    color: "#1B4371",
   },
 });
 
