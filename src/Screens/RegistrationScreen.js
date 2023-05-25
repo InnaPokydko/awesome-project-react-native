@@ -9,6 +9,8 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   Image,
+  SafeAreaView,
+  ScrollView,
 } from "react-native";
 
 const image = require("../../assets/images/bg-photo.jpg");
@@ -26,98 +28,128 @@ export default function RegistrationScreen() {
   };
 
   return (
-    <ImageBackground source={image} style={styles.backgroundImage}>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior="padding"
-        onPress={Keyboard.dismiss}
-      >
-        <View style={styles.addPhoto}>
-          <Image source={addPhotoIcon} style={styles.addPhotoIcon} />
-        </View>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      onPress={Keyboard.dismiss}
+    >
+      <SafeAreaView style={styles.safeAreaContainer}>
+        <ScrollView
+          contentContainerStyle={styles.scrollViewContainer}
+          keyboardShouldPersistTaps="handled"
+        >
+          <ImageBackground source={image} style={styles.backgroundImage}>
+            <View style={styles.content}>
+              <View style={styles.registrationFormBox}>
+                <Text style={styles.title}>Реєстрація</Text>
 
-        <View style={styles.content}>
-          <Text style={styles.title}>Реєстрація</Text>
+                <View style={styles.addPhoto}>
+                  <Image source={addPhotoIcon} style={styles.addPhotoIcon} />
+                </View>
 
-          <TextInput
-            style={styles.input}
-            placeholder="Логін"
-            value={login}
-            onChangeText={setLogin}
-          />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Логін"
+                  value={login}
+                  onChangeText={setLogin}
+                />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Адреса електронної пошти"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Адреса електронної пошти"
+                  value={email}
+                  onChangeText={setEmail}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                />
 
-          <View style={styles.passwordContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder="Пароль"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={!showPassword}
-            />
+                <View style={styles.passwordContainer}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Пароль"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry={!showPassword}
+                  />
+                </View>
 
-            <TouchableOpacity
-              style={styles.showPasswordButton}
-              onPress={() => setShowPassword(!showPassword)}
-            >
-              <Text style={styles.showPasswordButtonText}>
-                {showPassword ? "Приховати" : "Показати"}
-              </Text>
-            </TouchableOpacity>
-          </View>
+                <TouchableOpacity
+                  style={styles.showPasswordButton}
+                  onPress={() => setShowPassword(!showPassword)}
+                >
+                  <Text style={styles.showPasswordButtonText}>
+                    {showPassword ? "Приховати" : "Показати"}
+                  </Text>
+                </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.registerButton}
-            onPress={handleRegistration}
-          >
-            <Text style={styles.registerButtonText}>Зареєстуватися</Text>
-          </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.registerButton}
+                  onPress={handleRegistration}
+                >
+                  <Text style={styles.registerButtonText}>Зареєструватися</Text>
+                </TouchableOpacity>
 
-          <Text style={styles.loginText}>
-            Вже є акаунт? <Text style={styles.loginLink}>Увійти</Text>
-          </Text>
-        </View>
-      </KeyboardAvoidingView>
-    </ImageBackground>
+                <Text style={styles.loginText}>
+                  Вже є акаунт?{" "}
+                  <Text style={styles.loginLink}>Увійти</Text>
+                </Text>
+              </View>
+            </View>
+          </ImageBackground>
+        </ScrollView>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 }
 
-
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  safeAreaContainer: {
+    flex: 1,
+  },
+  scrollViewContainer: {
+    flexGrow: 1,
+  },
   backgroundImage: {
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
   },
-  container: {
+  content: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-  },
-  content: {
-    alignItems: "center",
+    justifyContent: "flex-end",
     paddingHorizontal: 20,
+    paddingBottom: 50,
+    paddingTop: 150,
+  },
+  registrationFormBox: {
+    width: 375,
+    height: 549,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 25,
+    paddingHorizontal: 16,
+    paddingBottom: 78,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
-    color: "white",
+    color: "#000",
+    alignSelf: "center",
   },
   addPhoto: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: "grey",
-    marginBottom: 20,
+    position: "absolute",
+    top: -40,
+    left: "50%",
+    transform: [{ translateX: -60 }],
+    width: 120,
+    height: 120,
+    backgroundColor: "#F6F6F6",
+    borderRadius: 60,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -126,12 +158,16 @@ const styles = StyleSheet.create({
     height: 25,
   },
   input: {
-    width: "100%",
-    height: 40,
+    width: 343,
+    height: 50,
+    marginBottom: 16,
+    paddingHorizontal: 16,
+    backgroundColor: "#F6F6F6",
   },
   passwordContainer: {
     flexDirection: "row",
     alignItems: "center",
+    marginBottom: 16,
   },
   showPasswordButton: {
     marginLeft: 10,
@@ -140,20 +176,26 @@ const styles = StyleSheet.create({
     color: "white",
   },
   registerButton: {
-    backgroundColor: "blue",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 5,
-    marginTop: 20,
+    alignSelf: "center",
+    backgroundColor: "#FF6C00",
+    width: 344,
+    height: 50,
+    borderRadius: 100,
+    padding: 16,
+    marginBottom: 16,
   },
   registerButtonText: {
-    color: "white",
+    color: "#FFFFFF",
+    fontFamily: "RobotoRegular",
+    fontWeight: "400",
     fontSize: 16,
-    fontWeight: "bold",
+    lineHeight: 19,
+    textAlign: "center",
   },
   loginText: {
+    alignSelf: "center",
     marginTop: 20,
-    color: "white",
+    color: "black",
   },
   loginLink: {
     fontWeight: "bold",

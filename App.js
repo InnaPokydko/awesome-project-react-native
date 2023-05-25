@@ -1,17 +1,17 @@
 import { StatusBar } from 'react-native';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useFonts } from 'expo-font';
+// import { useFonts } from 'expo-font';
 import RegistrationScreen from './src/Screens/RegistrationScreen';
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
-    'Inter-Black': require('./assets/fonts/Inter-Black.otf'),
-  });
+  // const [fontsLoaded] = useFonts({
+  //   'Inter-Black': require('./assets/fonts/Inter-Black.otf'),
+  // });
   
-  if (!fontsLoaded) {
-    return null;
-  }
+  // if (!fontsLoaded) {
+  //   return null;
+  // }
   
   return (
     <View style={styles.container}>
