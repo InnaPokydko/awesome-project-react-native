@@ -29,17 +29,15 @@ const LoginScreen = () => {
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
+      onPress={Keyboard.dismiss}
     >
       <SafeAreaView style={styles.safeAreaContainer}>
         <ImageBackground source={image} style={styles.backgroundImage}>
           <View style={styles.content}>
+          <View style={styles.photoBox}>
+                             </View>
             <View style={styles.loginFormBox}>
               <Text style={styles.loginTitle}>Увійти</Text>
-
-              <View style={styles.photoBox}>
-                <Image source={addPhotoIcon} style={styles.addPhotoImg} />
-              </View>
-
               <TextInput
                 style={styles.input}
                 placeholder="Адреса електронної пошти"
@@ -57,21 +55,17 @@ const LoginScreen = () => {
                   onChangeText={setPassword}
                   secureTextEntry={!showPassword}
                 />
+                <TouchableOpacity
+                  style={styles.showPasswordContainer}
+                  onPress={() => setShowPassword(!showPassword)}
+                >
+                  <Text style={styles.showPasswordText}>
+                    {showPassword ? "Приховати" : "Показати"}
+                  </Text>
+                </TouchableOpacity>
               </View>
 
-              <TouchableOpacity
-                style={styles.showPasswordContainer}
-                onPress={() => setShowPassword(!showPassword)}
-              >
-                <Text style={styles.showPasswordText}>
-                  {showPassword ? "Приховати" : "Показати"}
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.loginBtn}
-                onPress={handleLogin}
-              >
+              <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
                 <Text style={styles.btnLabel}>Увійти</Text>
               </TouchableOpacity>
 
@@ -90,38 +84,26 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+      },
+  safeAreaContainer: {
     position: "relative",
-    justifyContent: "center",
+    flex: 1,
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: "cover",
+    width: "100%",
+    height: "100%",
+  },
+  content: {
+    flex: 1,
+    justifyContent: "flex-end",
     alignItems: "center",
   },
-  image: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    transform: [{ translateX: -216 }],
-    flex: 1,
-    justifyContent: "center",
-    width: 432,
-    height: 932,
-    resizeMode: "cover",
-  },
-  photoBox: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    transform: [{ translateX: 152 }, { translateY: -60 }],
-    width: 120,
-    height: 120,
-    backgroundColor: "#F6F6F6",
-    borderRadius: 16,
-  },
   loginFormBox: {
-    flex: 1,
-    position: "absolute",
-    transform: [{ translateX: -216 }, { translateY: -60 }],
-    width: 432,
-    height: 548,
-    borderRadius: 25,
+    width: "100%",
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
     backgroundColor: "#FFFFFF",
     paddingTop: 92,
     paddingRight: 16,
@@ -129,26 +111,37 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
   },
   loginTitle: {
-    marginBottom: 32,
+    fontSize: 30,
+    fontWeight: "500",
     textAlign: "center",
+    marginBottom: 32,
   },
   input: {
-    width: 343,
+    width: "100%",
     height: 50,
     color: "#212121",
     backgroundColor: "#F6F6F6",
-    alignSelf: "center",
     marginBottom: 16,
     paddingLeft: 12,
     borderRadius: 8,
   },
-  passwordContainer: {
+  photoBox: {
+    top: 80,
+    left: 50,
+    transform: [{ translateX: -50 }, { translateY: -20 }],
+    width: 120,
+    height: 120,
+    backgroundColor: "#F6F6F6",
+    borderRadius: 16,
+    zIndex: 1,
+  },
+    passwordContainer: {
     position: "relative",
   },
   showPasswordContainer: {
     position: "absolute",
     top: 16,
-    right: 40,
+    right: 12,
   },
   showPasswordText: {
     color: "#1B4371",
@@ -176,10 +169,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
-
-
-
+export default LoginScreen;;
 
 // import React from "react";
 // import {

@@ -11,8 +11,9 @@ import {
   Image,
   SafeAreaView,
   ScrollView,
+  Platform,
+  Dimensions,
 } from "react-native";
-// import { useFonts } from "expo-font";
 
 const image = require("../assets/images/bg_photo.jpg");
 const addPhotoIcon = require("../assets/images/add_photo.png");
@@ -22,13 +23,6 @@ const RegistrationScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  // const [fontsLoaded] = useFonts({
-  //   'RobotoMedium': require("../../assets/fonts/RobotoMedium.ttf"),
-  //   'RobotoRegular': require("../../assets/fonts/RobotoRegular.ttf")
-  // });
-  // if (!fontsLoaded) {
-  //   return null;
-  // }
 
   const handleRegistration = () => {
     // Perform registration logic
@@ -42,45 +36,42 @@ const RegistrationScreen = () => {
       onPress={Keyboard.dismiss}
     >
       <SafeAreaView style={styles.safeAreaContainer}>
-        <ScrollView
+        {/* <ScrollView
           contentContainerStyle={styles.scrollViewContainer}
           keyboardShouldPersistTaps="handled"
-        >
-          <ImageBackground source={image} style={styles.backgroundImage}>
-            <View style={styles.content}>
-              <View style={styles.registrationFormBox}>
-                <Text style={styles.registerTitle}>Реєстрація</Text>
+        > */}
+        <ImageBackground source={image} style={styles.backgroundImage}>
+          <View style={styles.content}>
+            <View style={styles.photoBox}>
+              <Image source={addPhotoIcon} style={styles.addPhotoImg} />
+            </View>
+            <View style={styles.registrationFormBox}>
+              <Text style={styles.registerTitle}>Реєстрація</Text>
 
-                <View style={styles.photoBox}>
-                  <Image source={addPhotoIcon} style={styles.addPhotoImg} />
-                </View>
+              <TextInput
+                style={styles.input}
+                placeholder="Логін"
+                value={login}
+                onChangeText={setLogin}
+              />
 
+              <TextInput
+                style={styles.input}
+                placeholder="Адреса електронної пошти"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+
+              <View style={styles.passwordContainer}>
                 <TextInput
                   style={styles.input}
-                  placeholder="Логін"
-                  value={login}
-                  onChangeText={setLogin}
+                  placeholder="Пароль"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry={!showPassword}
                 />
-
-                <TextInput
-                  style={styles.input}
-                  placeholder="Адреса електронної пошти"
-                  value={email}
-                  onChangeText={setEmail}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                />
-
-                <View style={styles.passwordContainer}>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Пароль"
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry={!showPassword}
-                  />
-                </View>
-
                 <TouchableOpacity
                   style={styles.showPasswordContainer}
                   onPress={() => setShowPassword(!showPassword)}
@@ -89,118 +80,84 @@ const RegistrationScreen = () => {
                     {showPassword ? "Приховати" : "Показати"}
                   </Text>
                 </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.registrBtn}
-                  onPress={handleRegistration}
-                >
-                  <Text style={styles.btnLabel}>Зареєструватися</Text>
-                </TouchableOpacity>
-
-                <Text style={styles.textLogIn}>
-                  Вже є акаунт?
-                  <Text style={styles.loginLink}>Увійти</Text>
-                </Text>
               </View>
+
+              <TouchableOpacity
+                style={styles.registrBtn}
+                onPress={handleRegistration}
+              >
+                <Text style={styles.btnLabel}>Зареєструватися</Text>
+              </TouchableOpacity>
+
+              <Text style={styles.textLogIn}>
+                Вже є акаунт?
+                <Text style={styles.loginLink}>Увійти</Text>
+              </Text>
             </View>
-          </ImageBackground>
-        </ScrollView>
+          </View>
+        </ImageBackground>
+        {/* </ScrollView> */}
       </SafeAreaView>
     </KeyboardAvoidingView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  safeAreaContainer: {
     position: "relative",
-    justifyContent: "center",
+    flex: 1,
+  },
+  // scrollViewContainer: {
+  //   flexGrow: 1,
+  // },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: "cover",
+    width: "100%",
+    height: "100%",
+  },
+  content: {
+    flex: 1,
+    justifyContent: "flex-end",
     alignItems: "center",
   },
-  image: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    transform: [{ translateX: -216 }],
-    flex: 1,
-    justifyContent: "center",
-    width: 432,
-    height: 932,
-    resizeMode: "cover",
-  },
-  photoBox: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    transform: [{ translateX: 152 }, { translateY: -60 }],
-    width: 120,
-    height: 120,
-    backgroundColor: "#F6F6F6",
-    borderRadius: 16,
-  },
   registrationFormBox: {
-    flex: 1,
-    position: "absolute",
-    transform: [{ translateX: -216 }, { translateY: -60 }],
-    width: 432,
-    height: 548,
-    borderRadius: 25,
+    width: "100%",
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
     backgroundColor: "#FFFFFF",
     paddingTop: 92,
     paddingRight: 16,
     paddingBottom: 78,
     paddingLeft: 16,
   },
-  containerForm: {
-    position: "relative",
-  },
   registerTitle: {
-    // fontFamily: "RobotoMedium",
-    // fontWeight: "500",
-    // fontSize: 30,
-    // lineHeight: 35,
-    letterSpacing: 0.3,
+    fontSize: 30,
+    fontWeight: "500",
     textAlign: "center",
     marginBottom: 32,
   },
   input: {
-    width: 343,
+    width: "100%",
     height: 50,
     color: "#212121",
     backgroundColor: "#F6F6F6",
-    alignSelf: "center",
     marginBottom: 16,
     paddingLeft: 12,
     borderRadius: 8,
-    // fontFamily: "RobotoRegular",
-    // fontWeight: "400",
-    // fontSize: 16,
-    // lineHeight: 19,
   },
-  inputLast: {
-    width: 344,
-    height: 50,
-    color: "#212121",
+  photoBox: {
+    top: 80,
+    left: 50,
+    transform: [{ translateX: -50 }, { translateY: -20 }],
+    width: 120,
+    height: 120,
     backgroundColor: "#F6F6F6",
-    alignSelf: "center",
-    marginBottom: 0,
-    paddingLeft: 12,
-    borderRadius: 8,
-    // fontFamily: "RobotoRegular",
-    // fontWeight: "400",
-    // fontSize: 16,
-    // lineHeight: 19,
-  },
-  inputsContainer: {
-    marginBottom: 44,
-  },
-  btnLabel: {
-    alignSelf: "center",
-    color: "#FFFFFF",
-    // fontFamily: "RobotoRegular",
-    // fontWeight: "400",
-    // fontSize: 16,
-    // lineHeight: 19,
+    borderRadius: 16,
+    zIndex: 1,
   },
   addPhotoImg: {
     position: "absolute",
@@ -215,14 +172,12 @@ const styles = StyleSheet.create({
   showPasswordContainer: {
     position: "absolute",
     top: 16,
-    right: 40,
+    right: 12,
   },
   showPasswordText: {
-    // fontFamily: "RobotoRegular",
-    // fontWeight: "400",
-    // fontSize: 16,
-    // lineHeight: 19,
     color: "#1B4371",
+    marginLeft: 8,
+    marginRight: 8,
   },
   registrBtn: {
     alignSelf: "center",
@@ -233,19 +188,21 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 16,
   },
+  btnLabel: {
+    alignSelf: "center",
+    color: "#FFFFFF",
+  },
   textLogIn: {
     textAlign: "center",
-    // fontFamily: "RobotoRegular",
-    // fontWeight: "400",
-    // fontSize: 16,
-    // lineHeight: 19,
     color: "#1B4371",
+  },
+  loginLink: {
+    fontWeight: "bold",
+    textDecorationLine: "underline",
   },
 });
 
 export default RegistrationScreen;
-
-
 
 // import React from "react";
 // import {
