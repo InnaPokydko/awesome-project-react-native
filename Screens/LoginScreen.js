@@ -10,29 +10,18 @@ import {
   Keyboard,
   Image,
   SafeAreaView,
-  ScrollView,
   Platform,
 } from "react-native";
-// import { useFonts } from "expo-font";
 
-const image = require("../assets/images/bg-photo.jpg");
+const image = require("../assets/images/bg_photo.jpg");
 const addPhotoIcon = require("../assets/images/add_photo.png");
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  // const [fontsLoaded] = useFonts({
-  //   'RobotoMedium': require("../../assets/fonts/RobotoMedium.ttf"),
-  //   'RobotoRegular': require("../../assets/fonts/RobotoRegular.ttf")
-  // });
-
-  // if (!fontsLoaded) {
-  //   return null;
-  // }
 
   const handleLogin = () => {
-    // Perform login logic
     console.log("Login submitted");
   };
 
@@ -42,62 +31,57 @@ const LoginScreen = () => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <SafeAreaView style={styles.safeAreaContainer}>
-        <ScrollView
-          contentContainerStyle={styles.scrollViewContainer}
-          keyboardShouldPersistTaps="handled"
-        >
-          <ImageBackground source={image} style={styles.backgroundImage}>
-            <View style={styles.content}>
-              <View style={styles.loginFormBox}>
-                <Text style={styles.loginTitle}>Увійти</Text>
+        <ImageBackground source={image} style={styles.backgroundImage}>
+          <View style={styles.content}>
+            <View style={styles.loginFormBox}>
+              <Text style={styles.loginTitle}>Увійти</Text>
 
-                <View style={styles.photoBox}>
-                  <Image source={addPhotoIcon} style={styles.addPhotoImg} />
-                </View>
+              <View style={styles.photoBox}>
+                <Image source={addPhotoIcon} style={styles.addPhotoImg} />
+              </View>
 
+              <TextInput
+                style={styles.input}
+                placeholder="Адреса електронної пошти"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+
+              <View style={styles.passwordContainer}>
                 <TextInput
                   style={styles.input}
-                  placeholder="Адреса електронної пошти"
-                  value={email}
-                  onChangeText={setEmail}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
+                  placeholder="Пароль"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry={!showPassword}
                 />
-
-                <View style={styles.passwordContainer}>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Пароль"
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry={!showPassword}
-                  />
-                </View>
-
-                <TouchableOpacity
-                  style={styles.showPasswordContainer}
-                  onPress={() => setShowPassword(!showPassword)}
-                >
-                  <Text style={styles.showPasswordText}>
-                    {showPassword ? "Приховати" : "Показати"}
-                  </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.loginBtn}
-                  onPress={handleLogin}
-                >
-                  <Text style={styles.btnLabel}>Увійти</Text>
-                </TouchableOpacity>
-
-                <Text style={styles.textRegister}>
-                  Немає акаунту?
-                  <Text style={styles.registerLink}>Зареєструватися</Text>
-                </Text>
               </View>
+
+              <TouchableOpacity
+                style={styles.showPasswordContainer}
+                onPress={() => setShowPassword(!showPassword)}
+              >
+                <Text style={styles.showPasswordText}>
+                  {showPassword ? "Приховати" : "Показати"}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.loginBtn}
+                onPress={handleLogin}
+              >
+                <Text style={styles.btnLabel}>Увійти</Text>
+              </TouchableOpacity>
+
+              <Text style={styles.textRegister}>
+                Немає акаунту?
+                <Text style={styles.registerLink}>Зареєструватися</Text>
+              </Text>
             </View>
-          </ImageBackground>
-        </ScrollView>
+          </View>
+        </ImageBackground>
       </SafeAreaView>
     </KeyboardAvoidingView>
   );
@@ -145,13 +129,8 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
   },
   loginTitle: {
-    // fontFamily: "RobotoMedium",
-    // fontWeight: "500",
-    // fontSize: 30,
-    // lineHeight: 35,
-    letterSpacing: 0.3,
-    textAlign: "center",
     marginBottom: 32,
+    textAlign: "center",
   },
   input: {
     width: 343,
@@ -162,10 +141,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     paddingLeft: 12,
     borderRadius: 8,
-    // fontFamily: "RobotoRegular",
-    // fontWeight: "400",
-    // fontSize: 16,
-    // lineHeight: 19,
   },
   passwordContainer: {
     position: "relative",
@@ -176,10 +151,6 @@ const styles = StyleSheet.create({
     right: 40,
   },
   showPasswordText: {
-    // fontFamily: "RobotoRegular",
-    // fontWeight: "400",
-    // fontSize: 16,
-    // lineHeight: 19,
     color: "#1B4371",
   },
   loginBtn: {
@@ -194,17 +165,9 @@ const styles = StyleSheet.create({
   btnLabel: {
     alignSelf: "center",
     color: "#FFFFFF",
-    // fontFamily: "RobotoRegular",
-    // fontWeight: "400",
-    // fontSize: 16,
-    // lineHeight: 19,
   },
   textRegister: {
     textAlign: "center",
-    // fontFamily: "RobotoRegular",
-    // fontWeight: "400",
-    // fontSize: 16,
-    // lineHeight: 19,
     color: "#1B4371",
   },
   registerLink: {
