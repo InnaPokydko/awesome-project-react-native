@@ -25,8 +25,13 @@ const Home = () => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: "tomato",
-        inactiveTintColor: "gray",
+        tabBarActiveTintColor: 'tomato',
+  tabBarInactiveTintColor: 'gray',
+  screenOptions: {
+    tabBarStyle: {
+      display: 'flex',
+    },
+  },
       }}
     >
       <Tabs.Screen name="Posts" component={PostsScreen} />

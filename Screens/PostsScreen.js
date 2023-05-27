@@ -2,7 +2,19 @@ import React from "react";
 import { StyleSheet, View, Text, FlatList } from "react-native";
 
 const PostsScreen = () => {
- 
+  const posts = [
+    { id: "1", title: "Post 1", content: "Content of post 1" },
+    { id: "2", title: "Post 2", content: "Content of post 2" },
+    { id: "3", title: "Post 3", content: "Content of post 3" },
+  ];
+
+   const renderItem = ({ item }) => (
+    <View style={styles.postContainer}>
+      <Text style={styles.postTitle}>{item.title}</Text>
+      <Text style={styles.postContent}>{item.content}</Text>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -19,11 +31,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 92,
-   
   },
   listContainer: {
     height: "100%",
-
     paddingLeft: 16,
     paddingRight: 16,
   },
