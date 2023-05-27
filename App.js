@@ -3,6 +3,8 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 // import { useFonts } from 'expo-font';
 import RegistrationScreen from './src/Screens/RegistrationScreen';
+import LoginScreen from './src/Screens/LoginScreen';
+
 
 export default function App() {
   // const [fontsLoaded] = useFonts({
@@ -16,6 +18,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <RegistrationScreen />
+      <LoginScreen />
       <StatusBar style="auto" />
     </View>
   );
@@ -27,7 +30,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
-
 
 
 

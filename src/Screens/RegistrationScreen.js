@@ -17,7 +17,7 @@ import { useFonts } from "expo-font";
 const image = require("../../assets/images/bg-photo.jpg");
 const addPhotoIcon = require("../../assets/images/add_photo.png");
 
-export default function RegistrationScreen() {
+const RegistrationScreen = () => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -242,6 +242,11 @@ const styles = StyleSheet.create({
     color: "#1B4371",
   },
 });
+
+export default RegistrationScreen;
+
+
+
 
 // import React from "react";
 // import {

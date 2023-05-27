@@ -11,13 +11,14 @@ import {
   Image,
   SafeAreaView,
   ScrollView,
+  Platform,
 } from "react-native";
 import { useFonts } from "expo-font";
 
 const image = require("../../assets/images/bg-photo.jpg");
 const addPhotoIcon = require("../../assets/images/add_photo.png");
 
-export default function LoginScreen() {
+const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -25,6 +26,7 @@ export default function LoginScreen() {
     'RobotoMedium': require("../../assets/fonts/RobotoMedium.ttf"),
     'RobotoRegular': require("../../assets/fonts/RobotoRegular.ttf")
   });
+
   if (!fontsLoaded) {
     return null;
   }
@@ -38,7 +40,6 @@ export default function LoginScreen() {
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      onPress={Keyboard.dismiss}
     >
       <SafeAreaView style={styles.safeAreaContainer}>
         <ScrollView
@@ -100,7 +101,7 @@ export default function LoginScreen() {
       </SafeAreaView>
     </KeyboardAvoidingView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -212,6 +213,7 @@ const styles = StyleSheet.create({
   },
 });
 
+export default LoginScreen;
 
 
 
