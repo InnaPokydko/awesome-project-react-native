@@ -12,7 +12,7 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
-import { useFonts } from "expo-font";
+// import { useFonts } from "expo-font";
 
 const image = require("../../assets/images/bg-photo.jpg");
 const addPhotoIcon = require("../../assets/images/add_photo.png");
@@ -22,18 +22,18 @@ const RegistrationScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [fontsLoaded] = useFonts({
-    'RobotoMedium': require("../../assets/fonts/RobotoMedium.ttf"),
-    'RobotoRegular': require("../../assets/fonts/RobotoRegular.ttf")
-  });
-  if (!fontsLoaded) {
-    return null;
-  }
+  // const [fontsLoaded] = useFonts({
+  //   'RobotoMedium': require("../../assets/fonts/RobotoMedium.ttf"),
+  //   'RobotoRegular': require("../../assets/fonts/RobotoRegular.ttf")
+  // });
+  // if (!fontsLoaded) {
+  //   return null;
+  // }
 
-  const handleRegistration = () => {
-    // Perform registration logic
-    console.log("Registration submitted");
-  };
+  // const handleRegistration = () => {
+  //   // Perform registration logic
+  //   console.log("Registration submitted");
+  // };
 
   return (
     <KeyboardAvoidingView
@@ -155,10 +155,10 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   registerTitle: {
-    fontFamily: "RobotoMedium",
-    fontWeight: "500",
-    fontSize: 30,
-    lineHeight: 35,
+    // fontFamily: "RobotoMedium",
+    // fontWeight: "500",
+    // fontSize: 30,
+    // lineHeight: 35,
     letterSpacing: 0.3,
     textAlign: "center",
     marginBottom: 32,
@@ -172,10 +172,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     paddingLeft: 12,
     borderRadius: 8,
-    fontFamily: "RobotoRegular",
-    fontWeight: "400",
-    fontSize: 16,
-    lineHeight: 19,
+    // fontFamily: "RobotoRegular",
+    // fontWeight: "400",
+    // fontSize: 16,
+    // lineHeight: 19,
   },
   inputLast: {
     width: 344,
@@ -186,10 +186,10 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     paddingLeft: 12,
     borderRadius: 8,
-    fontFamily: "RobotoRegular",
-    fontWeight: "400",
-    fontSize: 16,
-    lineHeight: 19,
+    // fontFamily: "RobotoRegular",
+    // fontWeight: "400",
+    // fontSize: 16,
+    // lineHeight: 19,
   },
   inputsContainer: {
     marginBottom: 44,
@@ -197,10 +197,10 @@ const styles = StyleSheet.create({
   btnLabel: {
     alignSelf: "center",
     color: "#FFFFFF",
-    fontFamily: "RobotoRegular",
-    fontWeight: "400",
-    fontSize: 16,
-    lineHeight: 19,
+    // fontFamily: "RobotoRegular",
+    // fontWeight: "400",
+    // fontSize: 16,
+    // lineHeight: 19,
   },
   addPhotoImg: {
     position: "absolute",
@@ -218,10 +218,10 @@ const styles = StyleSheet.create({
     right: 40,
   },
   showPasswordText: {
-    fontFamily: "RobotoRegular",
-    fontWeight: "400",
-    fontSize: 16,
-    lineHeight: 19,
+    // fontFamily: "RobotoRegular",
+    // fontWeight: "400",
+    // fontSize: 16,
+    // lineHeight: 19,
     color: "#1B4371",
   },
   registrBtn: {
@@ -235,16 +235,15 @@ const styles = StyleSheet.create({
   },
   textLogIn: {
     textAlign: "center",
-    fontFamily: "RobotoRegular",
-    fontWeight: "400",
-    fontSize: 16,
-    lineHeight: 19,
+    // fontFamily: "RobotoRegular",
+    // fontWeight: "400",
+    // fontSize: 16,
+    // lineHeight: 19,
     color: "#1B4371",
   },
 });
 
 export default RegistrationScreen;
-
 
 
 

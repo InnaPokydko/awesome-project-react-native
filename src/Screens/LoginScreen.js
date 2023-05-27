@@ -13,7 +13,7 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-import { useFonts } from "expo-font";
+// import { useFonts } from "expo-font";
 
 const image = require("../../assets/images/bg-photo.jpg");
 const addPhotoIcon = require("../../assets/images/add_photo.png");
@@ -22,14 +22,14 @@ const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [fontsLoaded] = useFonts({
-    'RobotoMedium': require("../../assets/fonts/RobotoMedium.ttf"),
-    'RobotoRegular': require("../../assets/fonts/RobotoRegular.ttf")
-  });
+  // const [fontsLoaded] = useFonts({
+  //   'RobotoMedium': require("../../assets/fonts/RobotoMedium.ttf"),
+  //   'RobotoRegular': require("../../assets/fonts/RobotoRegular.ttf")
+  // });
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  // if (!fontsLoaded) {
+  //   return null;
+  // }
 
   const handleLogin = () => {
     // Perform login logic
@@ -145,10 +145,10 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
   },
   loginTitle: {
-    fontFamily: "RobotoMedium",
-    fontWeight: "500",
-    fontSize: 30,
-    lineHeight: 35,
+    // fontFamily: "RobotoMedium",
+    // fontWeight: "500",
+    // fontSize: 30,
+    // lineHeight: 35,
     letterSpacing: 0.3,
     textAlign: "center",
     marginBottom: 32,
@@ -162,10 +162,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     paddingLeft: 12,
     borderRadius: 8,
-    fontFamily: "RobotoRegular",
-    fontWeight: "400",
-    fontSize: 16,
-    lineHeight: 19,
+    // fontFamily: "RobotoRegular",
+    // fontWeight: "400",
+    // fontSize: 16,
+    // lineHeight: 19,
   },
   passwordContainer: {
     position: "relative",
@@ -176,10 +176,10 @@ const styles = StyleSheet.create({
     right: 40,
   },
   showPasswordText: {
-    fontFamily: "RobotoRegular",
-    fontWeight: "400",
-    fontSize: 16,
-    lineHeight: 19,
+    // fontFamily: "RobotoRegular",
+    // fontWeight: "400",
+    // fontSize: 16,
+    // lineHeight: 19,
     color: "#1B4371",
   },
   loginBtn: {
@@ -194,17 +194,17 @@ const styles = StyleSheet.create({
   btnLabel: {
     alignSelf: "center",
     color: "#FFFFFF",
-    fontFamily: "RobotoRegular",
-    fontWeight: "400",
-    fontSize: 16,
-    lineHeight: 19,
+    // fontFamily: "RobotoRegular",
+    // fontWeight: "400",
+    // fontSize: 16,
+    // lineHeight: 19,
   },
   textRegister: {
     textAlign: "center",
-    fontFamily: "RobotoRegular",
-    fontWeight: "400",
-    fontSize: 16,
-    lineHeight: 19,
+    // fontFamily: "RobotoRegular",
+    // fontWeight: "400",
+    // fontSize: 16,
+    // lineHeight: 19,
     color: "#1B4371",
   },
   registerLink: {
