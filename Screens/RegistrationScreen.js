@@ -12,7 +12,6 @@ import {
   SafeAreaView,
   ScrollView,
   Platform,
-  Dimensions,
 } from "react-native";
 
 const image = require("../assets/images/bg_photo.jpg");
@@ -25,82 +24,84 @@ const RegistrationScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleRegistration = () => {
-    // Perform registration logic
     console.log("Registration submitted");
+    console.log("Login:", login);
+    console.log("Email:", email);
+    console.log("Password:", password);
   };
 
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      onPress={Keyboard.dismiss}
     >
       <SafeAreaView style={styles.safeAreaContainer}>
         {/* <ScrollView
           contentContainerStyle={styles.scrollViewContainer}
           keyboardShouldPersistTaps="handled"
         > */}
-        <ImageBackground source={image} style={styles.backgroundImage}>
-          <View style={styles.content}>
-            <View style={styles.photoBox}>
-              <Image source={addPhotoIcon} style={styles.addPhotoImg} />
-            </View>
-            <View style={styles.registrationFormBox}>
-              <Text style={styles.registerTitle}>Реєстрація</Text>
+          <ImageBackground source={image} style={styles.backgroundImage}>
+            <TouchableOpacity style={styles.content} onPress={Keyboard.dismiss}>
+              <View style={styles.photoBox}>
+                <Image source={addPhotoIcon} style={styles.addPhotoImg} />
+              </View>
+              <View style={styles.registrationFormBox}>
+                <Text style={styles.registerTitle}>Реєстрація</Text>
 
-              <TextInput
-                style={styles.input}
-                placeholder="Логін"
-                value={login}
-                onChangeText={setLogin}
-              />
-
-              <TextInput
-                style={styles.input}
-                placeholder="Адреса електронної пошти"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
-
-              <View style={styles.passwordContainer}>
                 <TextInput
                   style={styles.input}
-                  placeholder="Пароль"
-                  value={password}
-                  onChangeText={setPassword}
-                  secureTextEntry={!showPassword}
+                  placeholder="Логін"
+                  value={login}
+                  onChangeText={setLogin}
                 />
+
+                <TextInput
+                  style={styles.input}
+                  placeholder="Адреса електронної пошти"
+                  value={email}
+                  onChangeText={setEmail}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                />
+
+                <View style={styles.passwordContainer}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Пароль"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry={!showPassword}
+                  />
+                  <TouchableOpacity
+                    style={styles.showPasswordContainer}
+                    onPress={() => setShowPassword(!showPassword)}
+                  >
+                    <Text style={styles.showPasswordText}>
+                      {showPassword ? "Приховати" : "Показати"}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+
                 <TouchableOpacity
-                  style={styles.showPasswordContainer}
-                  onPress={() => setShowPassword(!showPassword)}
+                  style={styles.registrBtn}
+                  onPress={handleRegistration}
                 >
-                  <Text style={styles.showPasswordText}>
-                    {showPassword ? "Приховати" : "Показати"}
-                  </Text>
+                  <Text style={styles.btnLabel}>Зареєструватися</Text>
                 </TouchableOpacity>
+
+                <Text style={styles.textLogIn}>
+                  Вже є акаунт?
+                  <Text style={styles.loginLink}>Увійти</Text>
+                </Text>
               </View>
-
-              <TouchableOpacity
-                style={styles.registrBtn}
-                onPress={handleRegistration}
-              >
-                <Text style={styles.btnLabel}>Зареєструватися</Text>
-              </TouchableOpacity>
-
-              <Text style={styles.textLogIn}>
-                Вже є акаунт?
-                <Text style={styles.loginLink}>Увійти</Text>
-              </Text>
-            </View>
-          </View>
-        </ImageBackground>
+            </TouchableOpacity>
+          </ImageBackground>
         {/* </ScrollView> */}
       </SafeAreaView>
     </KeyboardAvoidingView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

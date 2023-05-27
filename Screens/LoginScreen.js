@@ -23,6 +23,8 @@ const LoginScreen = () => {
 
   const handleLogin = () => {
     console.log("Login submitted");
+    console.log("Email:", email);
+    console.log("Password:", password);
   };
 
   return (
@@ -34,8 +36,7 @@ const LoginScreen = () => {
       <SafeAreaView style={styles.safeAreaContainer}>
         <ImageBackground source={image} style={styles.backgroundImage}>
           <View style={styles.content}>
-          <View style={styles.photoBox}>
-                             </View>
+            <View style={styles.photoBox}></View>
             <View style={styles.loginFormBox}>
               <Text style={styles.loginTitle}>Увійти</Text>
               <TextInput
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;;
+export default LoginScreen;
 
 // import React from "react";
 // import {
