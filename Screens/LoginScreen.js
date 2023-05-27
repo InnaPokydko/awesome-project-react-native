@@ -14,9 +14,8 @@ import {
 } from "react-native";
 
 const image = require("../assets/images/bg_photo.jpg");
-const addPhotoIcon = require("../assets/images/add_photo.png");
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -31,11 +30,13 @@ const LoginScreen = () => {
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      onPress={Keyboard.dismiss}
     >
       <SafeAreaView style={styles.safeAreaContainer}>
         <ImageBackground source={image} style={styles.backgroundImage}>
-          <View style={styles.content}>
+          <TouchableOpacity
+            style={styles.content}
+            onPress={() => Keyboard.dismiss()}
+          >
             <View style={styles.photoBox}></View>
             <View style={styles.loginFormBox}>
               <Text style={styles.loginTitle}>Увійти</Text>
@@ -67,15 +68,20 @@ const LoginScreen = () => {
               </View>
 
               <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
-                <Text style={styles.btnLabel}>Увійти</Text>
+                <Text style={styles.btnLabel} onPress={() => navigation.navigate("Home")}>Увійти</Text>
               </TouchableOpacity>
 
               <Text style={styles.textRegister}>
                 Немає акаунту?
-                <Text style={styles.registerLink}>Зареєструватися</Text>
+                <Text
+                  style={styles.registerLink}
+                  onPress={() => navigation.navigate("Registration")}
+                >
+                  Зареєструватися
+                </Text>
               </Text>
             </View>
-          </View>
+          </TouchableOpacity>
         </ImageBackground>
       </SafeAreaView>
     </KeyboardAvoidingView>

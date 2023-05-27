@@ -17,7 +17,7 @@ import {
 const image = require("../assets/images/bg_photo.jpg");
 const addPhotoIcon = require("../assets/images/add_photo.png");
 
-const RegistrationScreen = () => {
+const RegistrationScreen = ({ navigation }) => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,10 +36,10 @@ const RegistrationScreen = () => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <SafeAreaView style={styles.safeAreaContainer}>
-        {/* <ScrollView
+        <ScrollView
           contentContainerStyle={styles.scrollViewContainer}
           keyboardShouldPersistTaps="handled"
-        > */}
+        >
           <ImageBackground source={image} style={styles.backgroundImage}>
             <TouchableOpacity style={styles.content} onPress={Keyboard.dismiss}>
               <View style={styles.photoBox}>
@@ -86,22 +86,21 @@ const RegistrationScreen = () => {
                   style={styles.registrBtn}
                   onPress={handleRegistration}
                 >
-                  <Text style={styles.btnLabel}>Зареєструватися</Text>
+                  <Text style={styles.btnLabel} onPress={() => navigation.navigate("Home")}>Зареєструватися</Text>
                 </TouchableOpacity>
 
                 <Text style={styles.textLogIn}>
                   Вже є акаунт?
-                  <Text style={styles.loginLink}>Увійти</Text>
+                  <Text style={styles.loginLink} onPress={() => navigation.navigate("Login")}>Увійти</Text>
                 </Text>
               </View>
             </TouchableOpacity>
           </ImageBackground>
-        {/* </ScrollView> */}
+        </ScrollView>
       </SafeAreaView>
     </KeyboardAvoidingView>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -204,6 +203,11 @@ const styles = StyleSheet.create({
 });
 
 export default RegistrationScreen;
+
+
+
+
+
 
 // import React from "react";
 // import {

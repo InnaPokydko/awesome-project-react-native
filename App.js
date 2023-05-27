@@ -1,18 +1,28 @@
-import { StatusBar } from 'react-native';
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import RegistrationScreen from './Screens/RegistrationScreen';
-// import LoginScreen from './Screens/LoginScreen';
-// import PostsScreen from './Screens/PostsScreen';
+import { StatusBar } from "react-native";
+import "react-native-gesture-handler";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import RegistrationScreen from "./Screens/RegistrationScreen";
+import LoginScreen from "./Screens/LoginScreen";
+import Home from "./Screens/Home";
+
+const MainStack = createStackNavigator(); // вказує на групу навігаторів
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <RegistrationScreen />
-      {/* <LoginScreen /> */}
-      {/* <PostsScreen /> */}
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <MainStack.Navigator initialRouteName="Registration">
+        <MainStack.Screen name="Registration" component={RegistrationScreen} />
+        <MainStack.Screen name="Login" component={LoginScreen} />
+        <MainStack.Screen
+          name="Home"
+          component={Home}
+          options={{ headerShown: false }}
+        />
+      </MainStack.Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -24,9 +34,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-
-
 
 // import 'react-native-gesture-handler';
 // import React from "react";
@@ -71,7 +78,7 @@ const styles = StyleSheet.create({
 //         />
 //       </MainStack.Navigator>
 //       </ImageBackground>
-      
+
 //     </NavigationContainer>
 //   );
 // };
@@ -82,10 +89,6 @@ const styles = StyleSheet.create({
 //         justifyContent: "center",
 //       },
 //     });
-
-
-
-
 
 // import React, { useState } from "react";
 // import {
@@ -193,8 +196,3 @@ const styles = StyleSheet.create({
 //     fontWeight: "bold",
 //   },
 // });
-
-
-
-
-
