@@ -1,32 +1,8 @@
 import React from "react";
 import { StyleSheet, View, Text, FlatList } from "react-native";
 
-const posts = [
-  {
-    id: "1",
-    title: "Post 1",
-    content: "",
-  },
-  {
-    id: "2",
-    title: "Post 2",
-    content: "",
-  },
-  {
-    id: "3",
-    title: "Post 3",
-    content: "",
-  },
-];
-
 const PostsScreen = () => {
-  const renderItem = ({ item }) => (
-    <View style={styles.postContainer}>
-      <Text style={styles.postTitle}>{item.title}</Text>
-      <Text style={styles.postContent}>{item.content}</Text>
-    </View>
-  );
-
+ 
   return (
     <View style={styles.container}>
       <FlatList
