@@ -14,8 +14,8 @@ import {
 } from "react-native";
 // import { useFonts } from "expo-font";
 
-const image = require("../../assets/images/bg-photo.jpg");
-const addPhotoIcon = require("../../assets/images/add_photo.png");
+const image = require("../assets/images/bg_photo.jpg");
+const addPhotoIcon = require("../assets/images/add_photo.png");
 
 const RegistrationScreen = () => {
   const [login, setLogin] = useState("");
@@ -30,10 +30,10 @@ const RegistrationScreen = () => {
   //   return null;
   // }
 
-  // const handleRegistration = () => {
-  //   // Perform registration logic
-  //   console.log("Registration submitted");
-  // };
+  const handleRegistration = () => {
+    // Perform registration logic
+    console.log("Registration submitted");
+  };
 
   return (
     <KeyboardAvoidingView

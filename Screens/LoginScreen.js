@@ -15,8 +15,8 @@ import {
 } from "react-native";
 // import { useFonts } from "expo-font";
 
-const image = require("../../assets/images/bg-photo.jpg");
-const addPhotoIcon = require("../../assets/images/add_photo.png");
+const image = require("../assets/images/bg-photo.jpg");
+const addPhotoIcon = require("../assets/images/add_photo.png");
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
