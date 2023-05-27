@@ -28,9 +28,10 @@ const Home = () => {
         tabBarActiveTintColor: 'tomato',
   tabBarInactiveTintColor: 'gray',
   screenOptions: {
-    tabBarStyle: {
+    tabBarStyle: [{
       display: 'flex',
     },
+    null]
   },
       }}
     >
