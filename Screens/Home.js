@@ -29,7 +29,7 @@ const Home = () => {
   tabBarInactiveTintColor: 'gray',
   screenOptions: {
     tabBarStyle: [{
-      display: 'flex',
+      "display": 'flex',
     },
     null]
   },

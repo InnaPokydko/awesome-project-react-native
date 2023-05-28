@@ -9,7 +9,7 @@ const CommentsScreen = () => {
     );
   };
 
-export default CreatePostsScreen;
+export default CommentsScreen;
 
 const styles = StyleSheet.create({
     container: {
