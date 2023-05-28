@@ -13,12 +13,11 @@ import { Ionicons } from "@expo/vector-icons";
 
 const CreatePostsScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
-  const [cameraRef, setCameraRef] = useState(null);
-  const [type, setType] = useState(Camera.Constants.Type.back);
   const [photo, setPhoto] = useState(null);
   const [photoName, setPhotoName] = useState("");
   const [location, setLocation] = useState("");
   const [isCameraActive, setIsCameraActive] = useState(false);
+  const cameraRef = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -46,40 +45,51 @@ const CreatePostsScreen = ({ navigation }) => {
   };
 
   const handleTakePhoto = async () => {
-    if (cameraRef) {
-      const { uri } = await cameraRef.takePictureAsync();
+    if (cameraRef.current) {
+      const { uri } = await cameraRef.current.takePictureAsync();
       await MediaLibrary.createAssetAsync(uri);
       setPhoto(uri);
+      setIsCameraActive(false);
     }
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.cameraContainer}
-        onPress={() => {
-          setIsCameraActive(true);
-          handleTakePhoto();
-        }}
-      >
-        {!photo && (
-          <>
-            <Ionicons name="camera" size={50} color="grey" />
-            <Text style={styles.uploadText}>Завантажте фото</Text>
-          </>
-        )}
-        {photo && (
-          <>
-            <Image source={{ uri: photo }} style={styles.previewImage} />
-            <TouchableOpacity
-              style={styles.deleteButton}
-              onPress={handleDelete}
-            >
-              <Ionicons name="trash-outline" size={30} color="black" />
-            </TouchableOpacity>
-          </>
-        )}
-      </TouchableOpacity>
+      {isCameraActive ? (
+        <Camera style={styles.camera} type={Camera.Constants.Type.back} ref={cameraRef}>
+          <TouchableOpacity
+            style={styles.takePhotoButton}
+            onPress={handleTakePhoto}
+          >
+            <Ionicons name="camera" size={30} color="white" />
+          </TouchableOpacity>
+        </Camera>
+      ) : (
+        <TouchableOpacity
+          style={styles.cameraContainer}
+          onPress={() => {
+            setIsCameraActive(true);
+          }}
+        >
+          {!photo && (
+            <>
+              <Ionicons name="camera" size={50} color="grey" />
+              <Text style={styles.uploadText}>Завантажте фото</Text>
+            </>
+          )}
+          {photo && (
+            <>
+              <Image source={{ uri: photo }} style={styles.previewImage} />
+              <TouchableOpacity
+                style={styles.deleteButton}
+                onPress={handleDelete}
+              >
+                <Ionicons name="trash-outline" size={30} color="black" />
+              </TouchableOpacity>
+            </>
+          )}
+        </TouchableOpacity>
+      )}
       <TextInput
         style={styles.input}
         placeholder="Назва..."
@@ -123,6 +133,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "gray",
     borderRadius: 8,
+  },
+  camera: {
+    flex: 1,
+  },
+  takePhotoButton: {
+    position: "absolute",
+    bottom: 16,
+    alignSelf: "center",
   },
   uploadText: {
     fontSize: 18,
