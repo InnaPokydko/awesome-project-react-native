@@ -30,7 +30,7 @@ const Home = () => {
         screenOptions: {
           tabBarStyle: [
             {
-              display: "flex",
+              "display": "flex",
             },
             null,
           ],

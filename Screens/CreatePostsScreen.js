@@ -36,7 +36,7 @@ const CreatePostsScreen = ({ navigation }) => {
   }
 
   const handlePublish = () => {
-    // код для створення посту та перенаправлення на екран PostsScreen
+   
     navigation.navigate("PostsScreen");
   };
 
@@ -56,7 +56,11 @@ const CreatePostsScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {isCameraActive ? (
-        <Camera style={styles.camera} type={Camera.Constants.Type.back} ref={cameraRef}>
+        <Camera
+          style={styles.camera}
+          type={Camera.Constants.Type.back}
+          ref={cameraRef}
+        >
           <TouchableOpacity
             style={styles.takePhotoButton}
             onPress={handleTakePhoto}
@@ -96,21 +100,15 @@ const CreatePostsScreen = ({ navigation }) => {
         value={photoName}
         onChangeText={(text) => setPhotoName(text)}
       />
-      <TouchableOpacity
-        style={styles.locationIcon}
-        onPress={() => {
-          // код для переходу на екран MapScreen
-          navigation.navigate("MapScreen");
-        }}
-      >
-        <Ionicons name="location-outline" size={30} color="black" />
-      </TouchableOpacity>
-      <TextInput
-        style={styles.input}
-        placeholder="Місцевість..."
-        value={location}
-        onChangeText={(text) => setLocation(text)}
-      />
+      <View style={styles.locationInputContainer}>
+        <Ionicons name="location-outline" size={25} color="grey" style={styles.locationIcon} />
+        <TextInput
+          style={styles.locationInput}
+          placeholder="Місцевість..."
+          value={location}
+          onChangeText={(text) => setLocation(text)}
+        />
+      </View>
       <TouchableOpacity style={styles.publishButton} onPress={handlePublish}>
         <Text style={styles.publishButtonText}>Опублікувати</Text>
       </TouchableOpacity>
@@ -143,8 +141,9 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   uploadText: {
-    fontSize: 18,
+    fontSize: 16,
     marginTop: 10,
+    color: "gray",
   },
   previewImage: {
     height: 200,
@@ -159,18 +158,32 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: "gray",
     borderWidth: 1,
+    marginTop: 16,
+    marginBottom: 16,
+    paddingHorizontal: 10,
+  },
+  locationInputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 10,
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 8,
     paddingHorizontal: 10,
   },
   locationIcon: {
-    alignSelf: "center",
-    marginBottom: 10,
+    marginRight: 10,
+  },
+  locationInput: {
+    flex: 1,
+    height: 40,
   },
   publishButton: {
     backgroundColor: "tomato",
     paddingVertical: 10,
     alignItems: "center",
     borderRadius: 8,
+    marginTop: 16,
   },
   publishButtonText: {
     color: "white",
