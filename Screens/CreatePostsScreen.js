@@ -14,14 +14,14 @@ import { Ionicons } from "@expo/vector-icons";
 const CreatePostsScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [photo, setPhoto] = useState(null);
-  const [photoName, setPhotoName] = useState("");
+   const [photoName, setPhotoName] = useState("");
   const [location, setLocation] = useState("");
   const [isCameraActive, setIsCameraActive] = useState(false);
   const cameraRef = useRef(null);
 
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
+      let { status } = await Camera.requestCameraPermissionsAsync();
       await MediaLibrary.requestPermissionsAsync();
 
       setHasPermission(status === "granted");
@@ -41,7 +41,7 @@ const CreatePostsScreen = ({ navigation }) => {
   };
 
   const handleDelete = () => {
-    // код для видалення посту
+    removeFields();
   };
 
   const handleTakePhoto = async () => {

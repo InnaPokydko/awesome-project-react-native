@@ -1,21 +1,23 @@
 import React from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View, Text, Button } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 
 const PostsScreen = () => {
   const navigation = useNavigation();
 
+  const handlePublish = () => {
+    navigation.navigate("PostsScreen");
+  };
+
+  const handleDelete = () => {
+   
+  };
+
   return (
     <View style={styles.container}>
       <Text>Публікації</Text>
-      <Button
-        title="Create"
-        onPress={() => navigation.navigate("CreatePostsScreen")}
-      >
-        <Ionicons name="arrow-forward" size={20} color="black" />
-      </Button>
-      <Text>Публікація {userId}</Text>
+      <Button title="Create" onPress={() => navigation.navigate("CreatePostsScreen")} />
+      <Text>Публікація</Text>
     </View>
   );
 };
