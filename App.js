@@ -1,7 +1,6 @@
-import { StatusBar } from "react-native";
 import "react-native-gesture-handler";
-import React from "react";
-import { StyleSheet, View } from "react-native";
+// import React, { useEffect } from 'react';
+// import * as Font from "./assets/fonts/";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import RegistrationScreen from "./Screens/RegistrationScreen";
@@ -9,6 +8,12 @@ import LoginScreen from "./Screens/LoginScreen";
 import Home from "./Screens/Home";
 
 const MainStack = createStackNavigator(); // вказує на групу навігаторів
+
+// useEffect(() => {
+//   Font.loadAsync({
+//     Ionicons: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf'),
+//   });
+// }, []);
 
 export default function App() {
   return (
