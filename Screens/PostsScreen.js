@@ -1,22 +1,20 @@
 import React from "react";
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
 const PostsScreen = () => {
   const navigation = useNavigation();
 
-  const handlePublish = () => {
-    navigation.navigate("PostsScreen");
-  };
-
-  const handleDelete = () => {
-   
+  const handleCreatePost = () => {
+    navigation.navigate("CreatePostsScreen");
   };
 
   return (
     <View style={styles.container}>
       <Text>Публікації</Text>
-      <Button title="Create" onPress={() => navigation.navigate("CreatePostsScreen")} />
+      <TouchableOpacity onPress={handleCreatePost}>
+        <Text>Create</Text>
+      </TouchableOpacity>
       <Text>Публікація</Text>
     </View>
   );
