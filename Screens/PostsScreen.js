@@ -1,6 +1,7 @@
 import React from "react";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { Entypo } from "@expo/vector-icons";
 
 const PostsScreen = () => {
   const navigation = useNavigation();
@@ -11,11 +12,13 @@ const PostsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text>Публікації</Text>
-      <TouchableOpacity onPress={handleCreatePost}>
-        <Text>Create</Text>
-      </TouchableOpacity>
-      <Text>Публікація</Text>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Публікації</Text>
+        <TouchableOpacity onPress={handleCreatePost}>
+          <Entypo name="login" size={24} color="gray" />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.separator} />
     </View>
   );
 };
@@ -25,6 +28,24 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    marginBottom: 16,
+    height: 60,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  separator: {
+    height: 1,
+    backgroundColor: "gray",
+    width: "100%",
+    marginBottom: 16,
   },
 });
 

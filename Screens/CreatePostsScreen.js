@@ -10,18 +10,18 @@ import {
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { Ionicons } from "@expo/vector-icons";
+import * as Location from "expo-location";
 
 const CreatePostsScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
-  const [photo, setPhoto] = useState(null);
-  const [photoName, setPhotoName] = useState("");
-  const [location, setLocation] = useState("");
+  const [cameraRef, setCameraRef] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+  const [location, setLocation] = useState(null);
   const [isCameraActive, setIsCameraActive] = useState(false);
-  const cameraRef = useRef(null);
 
   useEffect(() => {
     (async () => {
-      let { status } = await Camera.requestCameraPermissionsAsync();
+      const { status } = await Camera.requestPermissionsAsync();
       await MediaLibrary.requestPermissionsAsync();
 
       setHasPermission(status === "granted");
@@ -58,32 +58,40 @@ const CreatePostsScreen = ({ navigation }) => {
   const handleDelete = () => {
     setPhoto(null);
     setPhotoName("");
-    setLocation("");
-  };
-
-  const handleTakePhoto = async () => {
-    if (cameraRef.current) {
-      const { uri } = await cameraRef.current.takePictureAsync();
-      await MediaLibrary.createAssetAsync(uri);
-      setPhoto(uri);
-      setIsCameraActive(false);
-    }
+    setLocation(null);
   };
 
   return (
     <View style={styles.container}>
       {isCameraActive ? (
-        <Camera
-          style={styles.camera}
-          type={Camera.Constants.Type.back}
-          ref={cameraRef}
-        >
-          <TouchableOpacity
-            style={styles.takePhotoButton}
-            onPress={handleTakePhoto}
-          >
-            <Ionicons name="camera" size={30} color="white" />
-          </TouchableOpacity>
+        <Camera style={styles.camera} type={type} ref={setCameraRef}>
+          <View style={styles.photoView}>
+            <TouchableOpacity
+              style={styles.flipContainer}
+              onPress={() => {
+                setType(
+                  type === Camera.Constants.Type.back
+                    ? Camera.Constants.Type.front
+                    : Camera.Constants.Type.back
+                );
+              }}
+            >
+              <Text style={styles.flipText}>Flip</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={async () => {
+                if (cameraRef) {
+                  const { uri } = await cameraRef.takePictureAsync();
+                  await MediaLibrary.createAssetAsync(uri);
+                }
+              }}
+            >
+              <View style={styles.takePhotoOut}>
+                <View style={styles.takePhotoInner}></View>
+              </View>
+            </TouchableOpacity>
+          </View>
         </Camera>
       ) : (
         <TouchableOpacity
@@ -122,7 +130,7 @@ const CreatePostsScreen = ({ navigation }) => {
         <TextInput
           style={styles.locationInput}
           placeholder="Місцевість..."
-          value={location}
+          value={location?.latitude ? `${location.latitude}, ${location.longitude}` : ""}
           onChangeText={(text) => setLocation(text)}
         />
       </View>
@@ -134,9 +142,41 @@ const CreatePostsScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  container: { flex: 1 },
+  camera: { flex: 1 },
+  photoView: {
     flex: 1,
-    padding: 16,
+    backgroundColor: "transparent",
+    justifyContent: "flex-end",
+  },
+  flipContainer: {
+    flex: 0.1,
+    alignSelf: "flex-end",
+    marginBottom: 10,
+  },
+  flipText: {
+    fontSize: 18,
+    marginBottom: 10,
+    color: "white",
+  },
+  button: { alignSelf: "center" },
+  takePhotoOut: {
+    borderWidth: 2,
+    borderColor: "white",
+    height: 50,
+    width: 50,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+  },
+  takePhotoInner: {
+    borderWidth: 2,
+    borderColor: "white",
+    height: 40,
+    width: 40,
+    backgroundColor: "white",
+    borderRadius: 50,
   },
   cameraContainer: {
     width: 343,
@@ -210,8 +250,6 @@ const styles = StyleSheet.create({
 });
 
 export default CreatePostsScreen;
-
-
 
 // import React, { useState, useEffect, useRef } from "react";
 // import {
