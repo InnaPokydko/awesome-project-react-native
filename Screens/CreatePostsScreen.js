@@ -127,8 +127,31 @@ const CreatePostsScreen = ({ navigation }) => {
         value={photoName}
         onChangeText={(text) => setPhotoName(text)}
       />
+      <View style={styles.locationInputContainer}>
+        <Ionicons
+          name="location-outline"
+          size={25}
+          color="grey"
+          style={styles.locationIcon}
+        />
+        <TextInput
+          style={styles.locationInput}
+          placeholder="Місцевість..."
+          value={
+            location?.latitude
+              ? `${location.latitude}, ${location.longitude}`
+              : ""
+          }
+          onChangeText={(text) => setLocation(text)}
+        />
+      </View>
       <TouchableOpacity style={styles.publishButton} onPress={handlePublish}>
-        <Text style={styles.publishButtonText}>Опублікувати</Text>
+        <Text
+          style={styles.publishButtonText}
+          onPress={() => navigation.navigate("PostsScreen")}
+        >
+          Опублікувати
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -210,7 +233,24 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 16,
     marginBottom: 16,
+     borderRadius: 8,
     paddingHorizontal: 10,
+  },
+  locationInputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+  },
+  locationIcon: {
+    marginRight: 10,
+  },
+  locationInput: {
+    flex: 1,
+    height: 40,
   },
   publishButton: {
     backgroundColor: "tomato",
@@ -227,9 +267,6 @@ const styles = StyleSheet.create({
 });
 
 export default CreatePostsScreen;
-
-
-
 
 // import React, { useState, useEffect, useRef } from "react";
 // import {

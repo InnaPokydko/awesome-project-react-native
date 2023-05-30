@@ -8,7 +8,6 @@ import {
   ImageBackground,
   KeyboardAvoidingView,
   Keyboard,
-  Image,
   SafeAreaView,
   Platform,
 } from "react-native";
