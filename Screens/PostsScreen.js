@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   header: {
     flexDirection: "row",
@@ -36,10 +36,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginBottom: 16,
     height: 60,
+    marginTop: 0,
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: "bold",
+    flex: 1,
+    textAlign: "center",
   },
   separator: {
     height: 1,

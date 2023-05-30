@@ -1,14 +1,23 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+// import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from "@expo/vector-icons";
 import PostsScreen from "./PostsScreen";
 import CreatePostsScreen from "./CreatePostsScreen";
 import ProfileScreen from "./ProfileScreen";
 
 const Tabs = createBottomTabNavigator();
+// const Stack = createStackNavigator();
 
 const Home = () => {
   return (
+    // <NavigationContainer>
+    //   <Stack.Navigator>
+    //     <Stack.Screen name="PostsScreen" component={PostsScreen} />
+    //     <Stack.Screen name="CreatePostsScreen" component={CreatePostsScreen} />
+    //   </Stack.Navigator>
+    // </NavigationContainer> &&
     <Tabs.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
