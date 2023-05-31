@@ -4,9 +4,7 @@ import { Entypo } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 const PostsScreen = () => {
-  const [hasNewPost, setHasNewPost] = useState(false);
   const [postsArr, setPostsArr] = useState([]);
-  const [postsToRender, setPostsToRender] = useState([]);
   const [userLogin, setUserLogin] = useState("");
   const [email, setEmail] = useState("");
   const navigation = useNavigation();
@@ -45,13 +43,8 @@ const PostsScreen = () => {
         postPoint: postPoint,
       };
       setPostsArr((prevState) => [...prevState, postObject]);
-      setHasNewPost(true);
     }
   }, [route]);
-
-  useEffect(() => {
-    setPostsToRender(postsArr);
-  }, [postsArr]);
 
   return (
     <View style={styles.container}>
@@ -61,12 +54,12 @@ const PostsScreen = () => {
           <Entypo name="login" size={24} color="gray" />
         </TouchableOpacity>
       </View>
-      {hasNewPost && (
+      {postsArr.length > 0 && (
         <TouchableOpacity onPress={handleComments}>
           <Entypo name="comment" size={50} color="grey" />
         </TouchableOpacity>
       )}
-      {hasNewPost && (
+      {postsArr.length > 0 && (
         <TouchableOpacity onPress={handleMap}>
           <Entypo name="location" size={50} color="grey" />
         </TouchableOpacity>
@@ -79,7 +72,7 @@ const PostsScreen = () => {
             <Text>{email}</Text>
           </View>
         </View>
-        {postsToRender.map((item, index) => (
+        {postsArr.map((item, index) => (
           <View key={index} style={styles.postItem}>
             <Image source={{ uri: item.postPhoto }} style={styles.postPhoto} />
             <Text style={styles.postTitle}>{item.postTitle}</Text>
@@ -90,7 +83,6 @@ const PostsScreen = () => {
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -116,61 +108,3 @@ const styles = StyleSheet.create({
 });
 
 export default PostsScreen;
-
-
-
-// import React from "react";
-// import { useNavigation } from "@react-navigation/native";
-// import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-// import { Entypo } from "@expo/vector-icons";
-
-// const PostsScreen = () => {
-//   const navigation = useNavigation();
-
-//   const handleCreatePost = () => {
-//     navigation.navigate("CreatePostsScreen");
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       <View style={styles.header}>
-//         <Text style={styles.headerTitle}>Публікації</Text>
-//         <TouchableOpacity onPress={handleCreatePost}>
-//           <Entypo name="login" size={24} color="gray" />
-//         </TouchableOpacity>
-//       </View>
-//       <View style={styles.separator} />
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: "center",
-//     justifyContent: "flex-start",
-//   },
-//   header: {
-//     flexDirection: "row",
-//     alignItems: "center",
-//     justifyContent: "space-between",
-//     paddingHorizontal: 16,
-//     marginBottom: 16,
-//     height: 60,
-//     marginTop: 0,
-//   },
-//   headerTitle: {
-//     fontSize: 18,
-//     fontWeight: "bold",
-//     flex: 1,
-//     textAlign: "center",
-//   },
-//   separator: {
-//     height: 1,
-//     backgroundColor: "gray",
-//     width: "100%",
-//     marginBottom: 16,
-//   },
-// });
-
-// export default PostsScreen;
