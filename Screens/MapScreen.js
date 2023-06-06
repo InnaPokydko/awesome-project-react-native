@@ -3,7 +3,7 @@ import MapView, { Marker } from 'react-native-maps';
 import { View, StyleSheet, Dimensions } from "react-native";
 
 const MapScreen = () => {
-  const location = { latitude: 0, longitude: 0 }; // Замініть це значення на відповідну геолокацію зображення
+  const location = { latitude: 0, longitude: 0 }; 
 
   return (
     <View style={styles.container}>

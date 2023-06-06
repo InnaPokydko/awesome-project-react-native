@@ -9,16 +9,16 @@ import CommentsScreen from "./CommentsScreen";
 import MapScreen from "./MapScreen";
 
 const Tabs = createBottomTabNavigator();
-const Stack = createStackNavigator();
+const HomeStack = createStackNavigator();
 
-const Home = () => {
+export const Home = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="PostsScreen" component={PostsScreen} />
-      <Stack.Screen name="CreatePostsScreen" component={CreatePostsScreen} />
-      <Stack.Screen name="CommentsScreen" component={CommentsScreen} />
-      <Stack.Screen name="MapScreen" component={MapScreen} />
-    </Stack.Navigator>
+    <HomeStack.Navigator>
+      <HomeStack.Screen name="PostsScreen" component={PostsScreen} />
+      <HomeStack.Screen name="CreatePostsScreen" component={CreatePostsScreen} />
+      <HomeStack.Screen name="CommentsScreen" component={CommentsScreen} />
+      <HomeStack.Screen name="MapScreen" component={MapScreen} />
+    </HomeStack.Navigator>
   );
 };
 
@@ -53,7 +53,6 @@ const TabNavigator = () => {
 };
 
 export default TabNavigator;
-
 
 
 

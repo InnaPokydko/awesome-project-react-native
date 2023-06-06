@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -16,7 +16,7 @@ const CreatePostsScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState([]);
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [photo, setPhoto] = useState(null);
   const [photoName, setPhotoName] = useState("");
@@ -59,7 +59,7 @@ const CreatePostsScreen = ({ navigation }) => {
       navigation.navigate("PostsScreen", {
         postTitle: photoName,
         postPhoto: photo,
-        postPoint: location,
+        postPoint: `${location.latitude}, ${location.longitude}`,
       });
       setPhoto(null);
       setPhotoName("");
@@ -92,7 +92,13 @@ const CreatePostsScreen = ({ navigation }) => {
 
               <TouchableOpacity
                 style={styles.flipContainer}
-                onPress={() => setType(type === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back)}
+                onPress={() =>
+                  setType(
+                    type === Camera.Constants.Type.back
+                      ? Camera.Constants.Type.front
+                      : Camera.Constants.Type.back
+                  )
+                }
               >
                 <Text style={styles.flipText}>Flip</Text>
               </TouchableOpacity>
@@ -150,7 +156,7 @@ const CreatePostsScreen = ({ navigation }) => {
           style={styles.locationInput}
           placeholder="Місцевість..."
           value={
-            location?.latitude
+            location
               ? `${location.latitude}, ${location.longitude}`
               : ""
           }
