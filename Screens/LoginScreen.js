@@ -1,20 +1,45 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import {
+    StyleSheet,
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    ImageBackground,
+    KeyboardAvoidingView,
+    Keyboard,
+    SafeAreaView,
+    Platform,
+  } from "react-native";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/config';
+import { useDispatch } from 'react-redux';
+import { setCurrentUser, loginUser } from '../redux/userSlice';
+
+const image = require("../assets/images/bg_photo.jpg");
 
 export default function Login({ navigation }) {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const onHandleLogin = () => {
-    if (email !== '' && password !== '') {
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => console.log('Login success'))
-        .catch(err => console.log(`Login err: ${err}`));
-    }
-  };
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      const userData = {
+        id: user.uid,
+        email: user.email,
+        // login: auth, 
+      };
+      dispatch(setCurrentUser(userData));
+      navigation.navigate("Home");
+    })
+    .catch((error) => {
+      console.log("Login error:", error);
+    });
+};
 
   return (
     <KeyboardAvoidingView

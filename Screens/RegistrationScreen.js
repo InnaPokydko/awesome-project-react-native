@@ -15,24 +15,38 @@ import {
 } from "react-native";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/config";
+import { writeDataToFirestore } from "../firebase/writeDataToFirestore";
+import { useDispatch } from 'react-redux';
+import { setCurrentUser, registerUser } from "../redux/userSlice";
 
 const image = require("../assets/images/bg_photo.jpg");
 const addPhotoIcon = require("../assets/images/add_photo.png");
 
 export default function RegistrationScreen({ navigation }) {
-  const [login, setLogin] = useState("");
+  const dispatch = useDispatch();
+  // const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const handleRegistration = () => {
-    if (email !== "" && password !== "") {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(() => console.log("Signup success"))
-        .catch((err) => console.log(`Signup error: ${err}`));
-    }
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        const userData = {
+          id: user.uid,
+          email: user.email,
+          // login: "", 
+        };
+        dispatch(setCurrentUser(userData));
+        writeDataToFirestore(userData);
+        navigation.navigate("Home");
+      })
+      .catch((error) => {
+        console.log("Registration error:", error);
+      });
   };
-
+  
   return (
     <KeyboardAvoidingView
       style={styles.container}

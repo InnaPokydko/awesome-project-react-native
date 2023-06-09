@@ -10,13 +10,7 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 
-const MainStack = createStackNavigator(); // вказує на групу навігаторів
-
-// useEffect(() => {
-//   Font.loadAsync({
-//     Ionicons: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf'),
-//   });
-// }, []);
+const MainStack = createStackNavigator(); 
 
 export default function App() {
   return (
@@ -40,6 +34,16 @@ export default function App() {
     </Provider>
   );
 }
+
+
+
+// useEffect(() => {
+//   Font.loadAsync({
+//     Ionicons: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf'),
+//   });
+// }, []);
+
+
 
 // import 'react-native-gesture-handler';
 // import React from "react";
