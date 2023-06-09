@@ -7,7 +7,7 @@ import { getFirestore } from "firebase/firestore";
 // Функція для підключення сховища файлів в проект
 import { getStorage } from "firebase/storage";
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: 'AIzaSyAb3FGzMlvlBfGNHHZqYmob7XO1xWdru2c',
   authDomain: 'my-awesome-project.firebaseapp.com',
   databaseURL: 'https://my-awesome-project-388114-default-rtdb.firebaseio.com',

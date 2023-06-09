@@ -1,28 +1,19 @@
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ImageBackground,
-  KeyboardAvoidingView,
-  Keyboard,
-  SafeAreaView,
-  Platform,
-} from "react-native";
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase/config';
 
-const image = require("../assets/images/bg_photo.jpg");
-
-const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function Login({ navigation }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = () => {
-    console.log("Login submitted");
-    console.log("Email:", email);
-    console.log("Password:", password);
+  const onHandleLogin = () => {
+    if (email !== '' && password !== '') {
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => console.log('Login success'))
+        .catch(err => console.log(`Login err: ${err}`));
+    }
   };
 
   return (
@@ -66,7 +57,7 @@ const LoginScreen = ({ navigation }) => {
                 </TouchableOpacity>
               </View>
 
-              <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
+              <TouchableOpacity style={styles.loginBtn} onPress={onHandleLogin}>
                 <Text style={styles.btnLabel} onPress={() => navigation.navigate("Home")}>Увійти</Text>
               </TouchableOpacity>
 
@@ -175,112 +166,93 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+// export default LoginScreen;
 
-// import React from "react";
+// import React, { useState } from "react";
 // import {
+//   StyleSheet,
 //   View,
 //   Text,
-//   StyleSheet,
-//   Button,
 //   TextInput,
 //   TouchableOpacity,
 //   ImageBackground,
+//   KeyboardAvoidingView,
+//   Keyboard,
+//   SafeAreaView,
+//   Platform,
 // } from "react-native";
-// import { useNavigation, useRoute } from "@react-navigation/native";
 
-// const image = {
-//   uri: "https://raw.githubusercontent.com/AboutReact/sampleresource/master/crystal_background.jpg",
-// };
-// const Login = () => {
-//   const navigation = useNavigation();
-//   const {
-//     params: { userId },
-//   } = useRoute();
+// const image = require("../assets/images/bg_photo.jpg");
+
+// const LoginScreen = ({ navigation }) => {
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [showPassword, setShowPassword] = useState(false);
+
+//   const handleLogin = () => {
+//     console.log("Login submitted");
+//     console.log("Email:", email);
+//     console.log("Password:", password);
+//   };
 
 //   return (
-//     <View style={styles.container}>
-//       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-//         <View style={styles.titleContainer}>
-//           <Text style={styles.welcomeTitle}>Welcome!</Text>
-//         </View>
+//     <KeyboardAvoidingView
+//       style={styles.container}
+//       behavior={Platform.OS === "ios" ? "padding" : "height"}
+//     >
+//       <SafeAreaView style={styles.safeAreaContainer}>
+//         <ImageBackground source={image} style={styles.backgroundImage}>
+//           <TouchableOpacity
+//             style={styles.content}
+//             onPress={() => Keyboard.dismiss()}
+//           >
+//             <View style={styles.photoBox}></View>
+//             <View style={styles.loginFormBox}>
+//               <Text style={styles.loginTitle}>Увійти</Text>
+//               <TextInput
+//                 style={styles.input}
+//                 placeholder="Адреса електронної пошти"
+//                 value={email}
+//                 onChangeText={setEmail}
+//                 keyboardType="email-address"
+//                 autoCapitalize="none"
+//               />
 
-//         <View style={styles.formContainer}>
-//           <Text style={styles.formTitle}>Sign In</Text>
+//               <View style={styles.passwordContainer}>
+//                 <TextInput
+//                   style={styles.input}
+//                   placeholder="Пароль"
+//                   value={password}
+//                   onChangeText={setPassword}
+//                   secureTextEntry={!showPassword}
+//                 />
+//                 <TouchableOpacity
+//                   style={styles.showPasswordContainer}
+//                   onPress={() => setShowPassword(!showPassword)}
+//                 >
+//                   <Text style={styles.showPasswordText}>
+//                     {showPassword ? "Приховати" : "Показати"}
+//                   </Text>
+//                 </TouchableOpacity>
+//               </View>
 
-//           <View>
-//             <Text>Email</Text>
+//               <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
+//                 <Text style={styles.btnLabel} onPress={() => navigation.navigate("Home")}>Увійти</Text>
+//               </TouchableOpacity>
 
-//             <TextInput
-//               style={styles.input}
-//               placeholder="Input your email"
-//               autoCompleteType="email"
-//               value={email}
-//               onChangeText={setEmail}
-//             />
-//           </View>
-//           <View>
-//             <Text>Password</Text>
-//             <TextInput
-//               style={styles.input}
-//               placeholder="Input your password"
-//               autoCompleteType="password"
-//               secureTextEntry
-//               value={password}
-//               onChangeText={setPassword}
-//             />
-//           </View>
-//           <TouchableOpacity style={styles.button} onPress={signIn}>
-//             <Text style={styles.buttonTitle}>Sign In</Text>
+//               <Text style={styles.textRegister}>
+//                 Немає акаунту?
+//                 <Text
+//                   style={styles.registerLink}
+//                   onPress={() => navigation.navigate("Registration")}
+//                 >
+//                   Зареєструватися
+//                 </Text>
+//               </Text>
+//             </View>
 //           </TouchableOpacity>
-//         </View>
-//       </ImageBackground>
-//       <Text>User Id {userId}</Text>
-//       <Button title="Go to Home" onPress={() => navigation.navigate("Home")} />
-//     </View>
+//         </ImageBackground>
+//       </SafeAreaView>
+//     </KeyboardAvoidingView>
 //   );
 // };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   image: {
-//     flex: 1,
-//     justifyContent: "center",
-//   },
-//   formContainer: {
-//     width: "80%",
-//     alignSelf: "center",
-//     backgroundColor: "rgba(255, 255, 255, 0.8)",
-//     padding: 20,
-//     borderRadius: 10,
-//   },
-//   formTitle: {
-//     fontSize: 18,
-//     fontWeight: "bold",
-//     marginBottom: 10,
-//   },
-//   input: {
-//     height: 40,
-//     borderColor: "gray",
-//     borderWidth: 1,
-//     marginBottom: 10,
-//     paddingHorizontal: 10,
-//   },
-//   button: {
-//     backgroundColor: "blue",
-//     paddingVertical: 10,
-//     borderRadius: 5,
-//     alignItems: "center",
-//   },
-//   buttonTitle: {
-//     color: "#fff",
-//     fontSize: 16,
-//     fontWeight: "bold",
-//   },
-// });
-
-// export default Login;

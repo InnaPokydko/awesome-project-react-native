@@ -13,21 +13,24 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/config";
 
 const image = require("../assets/images/bg_photo.jpg");
 const addPhotoIcon = require("../assets/images/add_photo.png");
 
-const RegistrationScreen = ({ navigation }) => {
+export default function RegistrationScreen({ navigation }) {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const handleRegistration = () => {
-    console.log("Registration submitted");
-    console.log("Login:", login);
-    console.log("Email:", email);
-    console.log("Password:", password);
+    if (email !== "" && password !== "") {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => console.log("Signup success"))
+        .catch((err) => console.log(`Signup error: ${err}`));
+    }
   };
 
   return (
@@ -86,12 +89,17 @@ const RegistrationScreen = ({ navigation }) => {
                   style={styles.registrBtn}
                   onPress={handleRegistration}
                 >
-                  <Text style={styles.btnLabel} onPress={() => navigation.navigate("Home")}>Зареєструватися</Text>
+                  <Text style={styles.btnLabel}>Зареєструватися</Text>
                 </TouchableOpacity>
 
                 <Text style={styles.textLogIn}>
                   Вже є акаунт?
-                  <Text style={styles.loginLink} onPress={() => navigation.navigate("Login")}>Увійти</Text>
+                  <Text
+                    style={styles.loginLink}
+                    onPress={() => navigation.navigate("Login")}
+                  >
+                    Увійти
+                  </Text>
                 </Text>
               </View>
             </TouchableOpacity>
@@ -100,7 +108,7 @@ const RegistrationScreen = ({ navigation }) => {
       </SafeAreaView>
     </KeyboardAvoidingView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -110,9 +118,9 @@ const styles = StyleSheet.create({
     position: "relative",
     flex: 1,
   },
-  // scrollViewContainer: {
-  //   flexGrow: 1,
-  // },
+  scrollViewContainer: {
+    flexGrow: 1,
+  },
   backgroundImage: {
     flex: 1,
     resizeMode: "cover",
@@ -202,118 +210,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegistrationScreen;
+// const RegistrationScreen = ({ navigation }) => {
+//   const [login, setLogin] = useState("");
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [showPassword, setShowPassword] = useState(false);
 
-
-
-
-
-
-// import React from "react";
-// import {
-//   View,
-//   Text,
-//   StyleSheet,
-//   Button,
-//   TouchableOpacity,
-//   ImageBackground,
-//   TextInput,
-// } from "react-native";
-// import { useNavigation } from "@react-navigation/native";
-
-// const image = {
-//   uri: "https://raw.githubusercontent.com/AboutReact/sampleresource/master/crystal_background.jpg",
-// };
-// const Register = () => {
-//   const navigation = useNavigation();
-
-//   return (
-//     <View style={styles.container}>
-//       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-//         <View style={styles.titleContainer}>
-//           <Text style={styles.welcomeTitle}>Welcome!</Text>
-//         </View>
-
-//         <View style={styles.formContainer}>
-//           <Text style={styles.formTitle}>Sign In</Text>
-
-//           <View>
-//             <Text>Email</Text>
-
-//             <TextInput
-//               style={styles.input}
-//               placeholder="Input your email"
-//               autoCompleteType="email"
-//               value={email}
-//               onChangeText={setEmail}
-//             />
-//           </View>
-//           <View>
-//             <Text>Password</Text>
-//             <TextInput
-//               style={styles.input}
-//               placeholder="Input your password"
-//               autoCompleteType="password"
-//               secureTextEntry
-//               value={password}
-//               onChangeText={setPassword}
-//             />
-//           </View>
-//           <TouchableOpacity style={styles.button} onPress={signIn}>
-//             <Text style={styles.buttonTitle}>Sign In</Text>
-//           </TouchableOpacity>
-//         </View>
-//       </ImageBackground>
-//       <Button
-//         title="Go to Login"
-//         onPress={() =>
-//           navigation.navigate("Login", { sessionId: 45, userId: "22e24" })
-//         }
-//       />
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   image: {
-//     flex: 1,
-//     justifyContent: "center",
-//   },
-//   formContainer: {
-//     width: "80%",
-//     alignSelf: "center",
-//     backgroundColor: "rgba(255, 255, 255, 0.8)",
-//     padding: 20,
-//     borderRadius: 10,
-//   },
-//   formTitle: {
-//     fontSize: 18,
-//     fontWeight: "bold",
-//     marginBottom: 10,
-//   },
-//   input: {
-//     height: 40,
-//     borderColor: "gray",
-//     borderWidth: 1,
-//     marginBottom: 10,
-//     paddingHorizontal: 10,
-//   },
-//   button: {
-//     backgroundColor: "blue",
-//     paddingVertical: 10,
-//     borderRadius: 5,
-//     alignItems: "center",
-//   },
-//   buttonTitle: {
-//     color: "#fff",
-//     fontSize: 16,
-//     fontWeight: "bold",
-//   },
-// });
-
-// export default Register;
+//   const handleRegistration = () => {
+//     console.log("Registration submitted");
+//     console.log("Login:", login);
+//     console.log("Email:", email);
+//     console.log("Password:", password);
+//   };
