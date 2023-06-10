@@ -3,6 +3,8 @@ import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { auth } from "../firebase/config";
+import CommentsScreen from "./CommentsScreen";
 
 const PostsScreen = () => {
   const [postsArr, setPostsArr] = useState([]);
@@ -15,12 +17,23 @@ const PostsScreen = () => {
     navigation.navigate("CreatePostsScreen");
   };
 
-  const handleComments = () => {
-    navigation.navigate("CommentsScreen");
+  const handleComments = (postId) => {
+    navigation.navigate("CommentsScreen", { postId });
   };
 
   const handleMap = () => {
     navigation.navigate("MapScreen");
+  };
+
+  const handleLogout = () => {
+    auth
+      .signOut()
+      .then(() => {
+        navigation.navigate("Login");
+      })
+      .catch((error) => {
+        console.log("Logout error:", error);
+      });
   };
 
   useEffect(() => {
@@ -47,9 +60,16 @@ const PostsScreen = () => {
     }
   }, [route]);
 
+  const addNewComment = (postId, commentText) => {
+    dispatch(addComment({ postId, commentText }));
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
+        <TouchableOpacity onPress={handleLogout}>
+          <Entypo name="log-out" size={24} color="gray" />
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Публікації</Text>
         <TouchableOpacity onPress={handleCreatePost}>
           <Entypo name="login" size={24} color="gray" />
@@ -65,7 +85,7 @@ const PostsScreen = () => {
             <Image source={{ uri: item.postPhoto }} style={styles.postPhoto} />
             <Text style={styles.postTitle}>{item.postTitle}</Text>
             <Text style={styles.postPoint}>{item.postPoint}</Text>
-            <TouchableOpacity onPress={handleComments}>
+            <TouchableOpacity onPress={() => handleComments(index)}>
               <FontAwesome name="comment" size={30} color="grey" />
             </TouchableOpacity>
             <TouchableOpacity onPress={handleMap}>

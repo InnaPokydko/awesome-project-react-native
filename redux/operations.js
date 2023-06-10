@@ -1,20 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
-
-const firebaseConfig = {
-    apiKey: 'AIzaSyAb3FGzMlvlBfGNHHZqYmob7XO1xWdru2c',
-    authDomain: 'my-awesome-project.firebaseapp.com',
-    databaseURL: 'https://my-awesome-project-388114-default-rtdb.firebaseio.com',
-    projectId: 'my-awesome-project-388114',
-    storageBucket: 'my-awesome-project-388114.appspot.com',
-    messagingSenderId: 'sender-id',
-    appId: '1:59106852235:ios:59c9a21a2941d69125c38e',
-    measurementId: 'G-measurement-id',
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+import { doc, getDoc, updateDoc, setDoc } from 'firebase/firestore';
+import { db } from '../firebase/config';
 
 const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'https://my-awesome-project-388114-default-rtdb.firebaseio.com' }), 
@@ -45,4 +31,33 @@ const api = createApi({
   }),
 });
 
+
+const writeDataToFirestore = async (userData) => {
+  try {
+    const { id, email, displayName } = userData;
+    const userRef = doc(db, "users", id);
+    await setDoc(userRef, {
+      email: email,
+      displayName: displayName,
+    });
+    console.log("User data written to Firestore");
+  } catch (e) {
+    console.error("Error adding user data: ", e);
+    throw e;
+  }
+};
+
+const updateUserDataInFirestore = async (userId, displayName) => {
+  try {
+    const userRef = doc(db, "users", userId);
+    await updateDoc(userRef, {
+      displayName: displayName,
+    });
+    console.log("User data updated in Firestore");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const { useGetUserDataQuery } = api;
+export { writeDataToFirestore, updateUserDataInFirestore };

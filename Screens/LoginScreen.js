@@ -11,10 +11,11 @@ import {
     SafeAreaView,
     Platform,
   } from "react-native";
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { useDispatch } from 'react-redux';
 import { setCurrentUser, loginUser } from '../redux/userSlice';
+import { updateUserDataInFirestore } from '../redux/operations';
 
 const image = require("../assets/images/bg_photo.jpg");
 
@@ -26,20 +27,34 @@ export default function Login({ navigation }) {
 
   const onHandleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      const userData = {
-        id: user.uid,
-        email: user.email,
-        // login: auth, 
-      };
-      dispatch(setCurrentUser(userData));
-      navigation.navigate("Home");
+      .then((userCredential) => {
+        const user = userCredential.user;
+        const userData = {
+          id: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+        };
+        dispatch(setCurrentUser(userData));
+        dispatch(loginUser()); 
+        navigation.navigate("Home");
+      })
+      .catch((error) => {
+        console.log("Login error:", error);
+      });
+  };
+
+  const handleProfileUpdate = (newDisplayName) => {
+    updateProfile(auth.currentUser, {
+      displayName: newDisplayName,
     })
-    .catch((error) => {
-      console.log("Login error:", error);
-    });
-};
+      .then(() => {
+        updateUserDataInFirestore(auth.currentUser.uid, newDisplayName);
+        console.log("Profile updated successfully");
+      })
+      .catch((error) => {
+        console.log("Profile update error:", error);
+      });
+  };
 
   return (
     <KeyboardAvoidingView

@@ -13,9 +13,9 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebase/config";
-import { writeDataToFirestore } from "../firebase/writeDataToFirestore";
+import { writeDataToFirestore } from "../redux/operations";
 import { useDispatch } from 'react-redux';
 import { setCurrentUser, registerUser } from "../redux/userSlice";
 
@@ -24,7 +24,7 @@ const addPhotoIcon = require("../assets/images/add_photo.png");
 
 export default function RegistrationScreen({ navigation }) {
   const dispatch = useDispatch();
-  // const [login, setLogin] = useState("");
+  const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -36,7 +36,7 @@ export default function RegistrationScreen({ navigation }) {
         const userData = {
           id: user.uid,
           email: user.email,
-          // login: "", 
+          displayName: login,
         };
         dispatch(setCurrentUser(userData));
         writeDataToFirestore(userData);
@@ -46,7 +46,7 @@ export default function RegistrationScreen({ navigation }) {
         console.log("Registration error:", error);
       });
   };
-  
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
