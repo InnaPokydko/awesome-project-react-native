@@ -33,7 +33,7 @@ export const addComment = createAsyncThunk('posts/addComment', async ({ postId, 
 
 const postSlice = createSlice({
   name: 'posts',
-  initialState: { postsArr: [] },
+  initialState: { postsArr: [], loading: false, error: null },
   reducers: {
     addPost: {
       reducer(state, action) {
@@ -59,16 +59,6 @@ const postSlice = createSlice({
         Object.assign(post, updatedData);
       }
     },
-    addCommentToPost(state, action) {
-      const { postId, commentText } = action.payload;
-      const post = state.postsArr.find(post => post.id === postId);
-      if (post) {
-        if (!post.comments) {
-          post.comments = [];
-        }
-        post.comments.push({ text: commentText });
-      }
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -86,19 +76,18 @@ const postSlice = createSlice({
       })
       .addCase(addComment.fulfilled, (state, action) => {
         const { postId, commentText } = action.payload;
-        state.postsArr.forEach(post => {
-          if (post.id === postId) {
-            if (!post.comments) {
-              post.comments = [];
-            }
-            post.comments.push({ text: commentText });
+        const post = state.postsArr.find(post => post.id === postId);
+        if (post) {
+          if (!post.comments) {
+            post.comments = [];
           }
-        });
+          post.comments.push({ text: commentText });
+        }
       });
   },
 });
 
-export const { addPost, deletePost, updatePost, addCommentToPost } = postSlice.actions;
+export const { addPost, deletePost, updatePost } = postSlice.actions;
 
 export const selectPosts = (state) => state.posts.postsArr;
 

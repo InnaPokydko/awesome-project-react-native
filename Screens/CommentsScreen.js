@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import { addComment } from "../redux/postSlice";
+import { addCommentToPost } from "../redux/postSlice";
 
-const CommentsScreen = ({ route }) => {
+const CommentsScreen = () => {
+  const navigation = useNavigation();
+  const route = useRoute();
   const { postId } = route.params;
   const [commentText, setCommentText] = useState("");
-  const navigation = useNavigation();
-
   const dispatch = useDispatch();
 
   const handleAddComment = () => {
-    dispatch(addComment({ postId, commentText }));
+    dispatch(addCommentToPost({ postId, commentText }));
     setCommentText("");
-    navigation.navigate("PostsScreen");
+    navigation.goBack();
   };
 
   return (

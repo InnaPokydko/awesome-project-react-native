@@ -10,17 +10,17 @@ import {
   REGISTER,
 } from "redux-persist";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { userSlice } from "./userSlice";
+import userSlice from "./userSlice";
 import postSlice from "./postSlice";
 
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["users", "posts"],
+  whitelist: ["users"],
 };
 
 const rootReducer = {
-  posts: postSlice.reducer,
+  posts: postSlice.reducer, 
   users: userSlice.reducer,
 };
 

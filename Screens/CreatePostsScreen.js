@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Text,
   View,
@@ -11,16 +11,18 @@ import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { Ionicons } from "@expo/vector-icons";
 import * as Location from "expo-location";
+import { useDispatch } from "react-redux";
+import { addPost } from "../redux/postSlice";
 
 const CreatePostsScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-  const [location, setLocation] = useState([]);
+  const [location, setLocation] = useState(null);
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [photo, setPhoto] = useState(null);
   const [photoName, setPhotoName] = useState("");
-  const [camera, setCamera] = useState(null);
 
   const takePhoto = async () => {
     if (cameraRef) {
@@ -29,7 +31,31 @@ const CreatePostsScreen = ({ navigation }) => {
     }
   };
 
-  useEffect(() => {
+  const handlePublish = () => {
+    if (photo && photoName && location) {
+      dispatch(
+        addPost({
+          postTitle: photoName,
+          postPhoto: photo,
+          postPoint: `${location.latitude}, ${location.longitude}`,
+        })
+      );
+      setPhoto(null);
+      setPhotoName("");
+      setLocation(null);
+      navigation.navigate("PostsScreen");
+    } else {
+      alert("Cannot publish an empty post");
+    }
+  };
+
+  const handleDelete = () => {
+    setPhoto(null);
+    setPhotoName("");
+    setLocation(null);
+  };
+
+  React.useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
       await MediaLibrary.requestPermissionsAsync();
@@ -38,7 +64,7 @@ const CreatePostsScreen = ({ navigation }) => {
     })();
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
@@ -53,27 +79,6 @@ const CreatePostsScreen = ({ navigation }) => {
       setLocation(coords);
     })();
   }, []);
-
-  const handlePublish = () => {
-    if (photo && photoName && location) {
-      navigation.navigate("PostsScreen", {
-        postTitle: photoName,
-        postPhoto: photo,
-        postPoint: `${location.latitude}, ${location.longitude}`,
-      });
-      setPhoto(null);
-      setPhotoName("");
-      setLocation(null);
-    } else {
-      alert("Неможливо опублікувати неіснуючий пост");
-    }
-  };
-
-  const handleDelete = () => {
-    setPhoto(null);
-    setPhotoName("");
-    setLocation(null);
-  };
 
   return (
     <View style={styles.container}>
@@ -117,7 +122,7 @@ const CreatePostsScreen = ({ navigation }) => {
             {!photo && (
               <>
                 <Ionicons name="camera" size={50} color="grey" />
-                <Text style={styles.uploadText}>Завантажте фото</Text>
+                <Text style={styles.uploadText}>Upload Photo</Text>
               </>
             )}
             {photo && (
@@ -141,7 +146,7 @@ const CreatePostsScreen = ({ navigation }) => {
       )}
       <TextInput
         style={styles.input}
-        placeholder="Назва..."
+        placeholder="Title..."
         value={photoName}
         onChangeText={(text) => setPhotoName(text)}
       />
@@ -154,7 +159,7 @@ const CreatePostsScreen = ({ navigation }) => {
         />
         <TextInput
           style={styles.locationInput}
-          placeholder="Місцевість..."
+          placeholder="Location..."
           value={
             location
               ? `${location.latitude}, ${location.longitude}`
@@ -168,7 +173,7 @@ const CreatePostsScreen = ({ navigation }) => {
         onPress={handlePublish}
         disabled={!photo || !photoName || !location}
       >
-        <Text style={styles.publishButtonText}>Опублікувати</Text>
+        <Text style={styles.publishButtonText}>Publish</Text>
       </TouchableOpacity>
     </View>
   );

@@ -1,19 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
-import { Entypo } from "@expo/vector-icons";
-import { FontAwesome, AntDesign } from "@expo/vector-icons";
+import { Entypo, FontAwesome, AntDesign } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { db } from "../firebase/config";
-import { useSelector, useDispatch } from "react-redux";
-import { addCommentToPost, selectPosts } from "../redux/postSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCurrentUser } from "../redux/userSlice";
+import { addPost, deletePost, fetchPosts } from "../redux/postSlice";
+import { auth } from "../firebase/config";
 
 const PostsScreen = () => {
-  const [userLogin, setUserLogin] = useState("");
-  const [email, setEmail] = useState("");
   const navigation = useNavigation();
-  const route = useRoute();
   const dispatch = useDispatch();
-  const postsArr = useSelector(selectPosts);
+  const currentUser = useSelector(selectCurrentUser);
+  const postsArr = useSelector((state) => state.posts.postsArr);
 
   const handleCreatePost = () => {
     navigation.navigate("CreatePostsScreen");
@@ -23,63 +21,22 @@ const PostsScreen = () => {
     navigation.navigate("CommentsScreen", { postId });
   };
 
-  const handleMap = () => {
-    navigation.navigate("MapScreen");
-  };
-
   const handleLogout = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigation.navigate("Login");
-      })
-      .catch((error) => {
-        console.log("Logout error:", error);
-      });
+    auth.signOut().then(() => {
+      navigation.navigate("LoginScreen");
+    });
   };
 
   useEffect(() => {
-    const {
-      params: {
-        name = "",
-        userEmail = "",
-        postTitle = "",
-        postPhoto = "",
-        postPoint = "",
-      } = {},
-    } = route;
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        dispatch(fetchPosts());
+      } else {
+        navigation.navigate("LoginScreen");
+      }
+    });
 
-    setUserLogin(name);
-    setEmail(userEmail);
-
-    if (postTitle !== "" && postPhoto !== "" && postPoint !== "") {
-      const postObject = {
-        id: nanoid(),
-        postTitle: postTitle,
-        postPhoto: postPhoto,
-        postPoint: postPoint,
-      };
-      dispatch(addPost(postObject));
-    }
-  }, [route]);
-
-  const loadPosts = async () => {
-    try {
-      const postsRef = db.collection("posts");
-      const snapshot = await postsRef.get();
-      const loadedPosts = [];
-      snapshot.forEach((doc) => {
-        const data = doc.data();
-        loadedPosts.push(data);
-      });
-      dispatch(fetchPosts(loadedPosts));
-    } catch (error) {
-      console.log("Error loading posts:", error);
-    }
-  };
-
-  useEffect(() => {
-    loadPosts();
+    return () => unsubscribe();
   }, []);
 
   return (
@@ -88,16 +45,12 @@ const PostsScreen = () => {
         <TouchableOpacity onPress={handleLogout}>
           <Entypo name="log-out" size={24} color="gray" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Публікації</Text>
+        <Text style={styles.headerTitle}>Posts</Text>
         <TouchableOpacity onPress={handleCreatePost}>
-          <Entypo name="login" size={24} color="gray" />
+          <Entypo name="plus" size={24} color="gray" />
         </TouchableOpacity>
       </View>
       <View style={styles.postsContainer}>
-        <View style={styles.userContainer}>
-          <View style={styles.photoBox}></View>
-          <View style={styles.userInfoBox}></View>
-        </View>
         {postsArr.map((item) => (
           <View key={item.id} style={styles.postItem}>
             <Image source={{ uri: item.postPhoto }} style={styles.postPhoto} />
@@ -106,9 +59,13 @@ const PostsScreen = () => {
             <TouchableOpacity onPress={() => handleComments(item.id)}>
               <FontAwesome name="comment" size={30} color="grey" />
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleMap}>
-              <AntDesign name="enviromento" size={30} color="grey" />
-            </TouchableOpacity>
+            {currentUser && currentUser.uid === item.userId && (
+              <TouchableOpacity
+                onPress={() => dispatch(deletePost(item.id))}
+              >
+                <AntDesign name="delete" size={30} color="grey" />
+              </TouchableOpacity>
+            )}
             {item.comments && item.comments.length > 0 && (
               <View>
                 {item.comments.map((comment, index) => (
@@ -122,6 +79,7 @@ const PostsScreen = () => {
     </View>
   );
 };
+
 
 
 const styles = StyleSheet.create({

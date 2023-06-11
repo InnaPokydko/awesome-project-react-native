@@ -1,9 +1,8 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit';
-import { storage } from '../firebase/config';
+import { createSlice } from '@reduxjs/toolkit';
 
 const userSlice = createSlice({
   name: 'user',
-  initialState:{ usersArr: [] },
+  initialState: { currentUser: [] },
   reducers: {
     setCurrentUser(state, action) {
       state.currentUser = action.payload;
@@ -12,10 +11,8 @@ const userSlice = createSlice({
 });
 
 export const { setCurrentUser } = userSlice.actions;
-
-export const selectCurrentUser = (state) => state.users.currentUser;
-
-export const usersReducer = userSlice.reducer;
+export const selectCurrentUser = (state) => state.user.currentUser;
+export default userSlice.reducer;
 
 
 
