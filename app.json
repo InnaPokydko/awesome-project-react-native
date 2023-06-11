@@ -14,11 +14,7 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "permissions": [
-      "CAMERA",
-      "MEDIA_LIBRARY"
-    ],
-    "ios": {
+       "ios": {
       "supportsTablet": true
     },
     "android": {
