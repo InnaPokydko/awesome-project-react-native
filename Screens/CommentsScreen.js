@@ -1,17 +1,20 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { addComment } from "../redux/postSlice";
 
 const CommentsScreen = ({ route }) => {
   const { postId } = route.params;
   const [commentText, setCommentText] = useState("");
+  const navigation = useNavigation();
 
   const dispatch = useDispatch();
 
   const handleAddComment = () => {
     dispatch(addComment({ postId, commentText }));
     setCommentText("");
+    navigation.navigate("PostsScreen");
   };
 
   return (
@@ -24,7 +27,7 @@ const CommentsScreen = ({ route }) => {
         onChangeText={setCommentText}
       />
       <TouchableOpacity style={styles.button} onPress={handleAddComment}>
-        <Text style={styles.buttonText}>Add Comment</Text>
+        <Text style={styles.buttonText}>Add comment</Text>
       </TouchableOpacity>
     </View>
   );
@@ -35,6 +38,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingHorizontal: 20,
   },
   title: {
     fontSize: 20,
@@ -42,7 +46,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    width: "80%",
+    width: "100%",
     height: 40,
     borderWidth: 1,
     borderColor: "gray",
@@ -51,7 +55,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   button: {
-    backgroundColor: "blue",
+    backgroundColor: "crimson",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
@@ -62,6 +66,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
-
 
 export default CommentsScreen;

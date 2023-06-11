@@ -3,15 +3,17 @@ import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { auth } from "../firebase/config";
-import CommentsScreen from "./CommentsScreen";
+import { db } from "../firebase/config";
+import { useSelector, useDispatch } from "react-redux";
+import { addCommentToPost, selectPosts } from "../redux/postSlice";
 
 const PostsScreen = () => {
-  const [postsArr, setPostsArr] = useState([]);
   const [userLogin, setUserLogin] = useState("");
   const [email, setEmail] = useState("");
   const navigation = useNavigation();
   const route = useRoute();
+  const dispatch = useDispatch();
+  const postsArr = useSelector(selectPosts);
 
   const handleCreatePost = () => {
     navigation.navigate("CreatePostsScreen");
@@ -52,17 +54,33 @@ const PostsScreen = () => {
 
     if (postTitle !== "" && postPhoto !== "" && postPoint !== "") {
       const postObject = {
+        id: nanoid(),
         postTitle: postTitle,
         postPhoto: postPhoto,
         postPoint: postPoint,
       };
-      setPostsArr((prevState) => [...prevState, postObject]);
+      dispatch(addPost(postObject));
     }
   }, [route]);
 
-  const addNewComment = (postId, commentText) => {
-    dispatch(addComment({ postId, commentText }));
+  const loadPosts = async () => {
+    try {
+      const postsRef = db.collection("posts");
+      const snapshot = await postsRef.get();
+      const loadedPosts = [];
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        loadedPosts.push(data);
+      });
+      dispatch(fetchPosts(loadedPosts));
+    } catch (error) {
+      console.log("Error loading posts:", error);
+    }
   };
+
+  useEffect(() => {
+    loadPosts();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -80,23 +98,31 @@ const PostsScreen = () => {
           <View style={styles.photoBox}></View>
           <View style={styles.userInfoBox}></View>
         </View>
-        {postsArr.map((item, index) => (
-          <View key={index} style={styles.postItem}>
+        {postsArr.map((item) => (
+          <View key={item.id} style={styles.postItem}>
             <Image source={{ uri: item.postPhoto }} style={styles.postPhoto} />
             <Text style={styles.postTitle}>{item.postTitle}</Text>
             <Text style={styles.postPoint}>{item.postPoint}</Text>
-            <TouchableOpacity onPress={() => handleComments(index)}>
+            <TouchableOpacity onPress={() => handleComments(item.id)}>
               <FontAwesome name="comment" size={30} color="grey" />
             </TouchableOpacity>
             <TouchableOpacity onPress={handleMap}>
               <AntDesign name="enviromento" size={30} color="grey" />
             </TouchableOpacity>
+            {item.comments && item.comments.length > 0 && (
+              <View>
+                {item.comments.map((comment, index) => (
+                  <Text key={index}>{comment.text}</Text>
+                ))}
+              </View>
+            )}
           </View>
         ))}
       </View>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
